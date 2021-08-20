@@ -26,7 +26,7 @@
 
   
 
-  <title>Linux下常用的sed命令 | 犯二青年博客</title>
+  <title>Go中的 Interceptor 拦截器 | 犯二青年博客</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://cdn.findcat.cn/fanerblog/20210117035221674.jpeg)"></div>
+    <div class="post-image" style="background-image: url(https://i.loli.net/2021/08/20/x4RSG8ftLlXchYk.png)"></div>
   
 
   <!-- navbar -->
@@ -108,11 +108,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Linux下常用的sed命令</h1>
+          <h1 class="title-wrap">Go中的 Interceptor 拦截器</h1>
           <h2 class="title-sub-wrap">
             <strong>犯二青年</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-01-16T19:53:02.000Z" itemprop="datePublished">2021-01-17</time>
+            <time  class="article-date" datetime="2021-08-20T07:35:36.000Z" itemprop="datePublished">2021-08-20</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -121,7 +121,11 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/Linux/">🏷️ Linux</a></li>
+    <li><a href="/tags/Golang/">🏷️ Golang</a></li>
+  
+    <li><a href="/tags/gRPC/">🏷️ gRPC</a></li>
+  
+    <li><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">🏷️ 微服务</a></li>
   
 </ul>
         </div>
@@ -145,36 +149,24 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="sed命令简介"><a href="#sed命令简介" class="headerlink" title="sed命令简介"></a>sed命令简介</h2><p>sed命令是一个很强大的文本编辑器，可以对来自文件、以及标准输入的文本进行编辑。<br>执行时，sed会从文件或者标准输入中读取一行，将其复制到缓冲区，对文本编辑完成之后，读取下一行直到所有的文本行都编辑完毕。<br>所以sed命令处理时只会改变缓冲区中文本的副本，如果想要直接编辑原文件，可以使用-i选项或者将结果重定向到新的文件中。</p>
-<h2 id="sed常用操作"><a href="#sed常用操作" class="headerlink" title="sed常用操作"></a>sed常用操作</h2><p>为了方便演示，我先建立一个文件，具体操作如下：</p>
-<ol>
-<li>使用 <code>vim</code> 创建一个 <code>sed.txt</code> 文件，并写入一些内容<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim sed.txt</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>写入 <code>hi! I&#39;m is a coder.</code><br>如图：<br><img src="https://cdn.findcat.cn/fanerblog/article/20210117033627727.png" alt="file"></p>
-<p>2.保存并且退出<br>按下键盘 <code>esc</code> 退出编辑模式，然后输入 <code>:wq</code> ，保存并退出 <code>vim</code> 编辑器</p>
-<h3 id="1、查找某个字符，并替换某个字符"><a href="#1、查找某个字符，并替换某个字符" class="headerlink" title="1、查找某个字符，并替换某个字符"></a>1、查找某个字符，并替换某个字符</h3><p>查找 <code>coder</code> 换成 <code>liang</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &quot;s/coder/liang/&quot; ./sed.txt</span><br></pre></td></tr></table></figure>
-
-<p>结果如图：<br><img src="https://cdn.findcat.cn/fanerblog/article/20210117034107154.png" alt="file"></p>
-<h3 id="2、查找以某字符开头的行，并整行替换"><a href="#2、查找以某字符开头的行，并整行替换" class="headerlink" title="2、查找以某字符开头的行，并整行替换"></a>2、查找以某字符开头的行，并整行替换</h3><p>查找 <code>hi</code> 开头的行数，换成 <code>hello</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i -e &quot;/^hi/s/^.*$/hello/&quot; ./sed.txt</span><br></pre></td></tr></table></figure>
-
-<p>结果如图：<br><img src="https://cdn.findcat.cn/fanerblog/article/20210117034525783.png" alt="file"></p>
-<h3 id="3、查找某个字符，在其后边插入字符串"><a href="#3、查找某个字符，在其后边插入字符串" class="headerlink" title="3、查找某个字符，在其后边插入字符串"></a>3、查找某个字符，在其后边插入字符串</h3><p>查找 <code>hello</code> 开头的字符串，在后边添加 <code>! I&#39;m is a coder.</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &quot;/hello/ s/$/! I&#x27;m is a coder./&quot; ./sed.txt</span><br></pre></td></tr></table></figure>
-
-<p>结果如图：<br><img src="https://cdn.findcat.cn/fanerblog/article/20210117034916402.png" alt="file"></p>
-<h3 id="4、在文件末尾新起一行插入字符串"><a href="#4、在文件末尾新起一行插入字符串" class="headerlink" title="4、在文件末尾新起一行插入字符串"></a>4、在文件末尾新起一行插入字符串</h3><p>在 <code>hello! I&#39;m is a coder.</code> 的下一行添加 <code>hi! I&#39;m is a programmer.</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &quot;\$a hi! I&#x27;m is a programmer.&quot; ./sed.txt</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong> 这里因为 <code>$</code> 符号在双引号内是解释型的关键字，如果外围使用单引号 <code>I&#39;m</code> 又会出现截断问题，所以说我在 ‘$’ 前，加了一个转义字符 <code>\</code> ，达成目的。</p>
-<p>结果如图：<br><img src="https://cdn.findcat.cn/fanerblog/article/20210117041643145.png" alt="file"></p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本文只记录了一部份的sed用法，其实还有很多种用法，持续更新…</p>
-
+        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="您输入的密码错误，请检查并重试。" data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="572a5eb9c6aec71df2d845cf225cd28ead5c30b261d01e346580962d70bd3eea">e02a1cfa5782067e6aaa89a687d4038461e1f7208f927fc058ec73addd91ffcbe8f457a328c57087d0cbb61ba1440edbfe17a8dc7eade82a74f153ef4d1db33fc60850f582af1627e8abd842bcd477e2496b51307bf5cc515713982b6b8503532baa34680ce879aff804fbcf02c821c38f8ca88beae83cdab0bbcd0dcda9540e6478dcb935850f98faa2c575b3bc273be80f9f27160380b9cc7060f9ac5edfc9229224cdf0c7c3375fcd5a75f17e2fe1f5a66a47b60c4e0ca7c6b4f88be560629d47d8bd57ca7e48724220210d52cd453ab549f70ae956fc4a9c3dc64450119c841b0cccb834f9ab8ba782633e430d19e6aa7ffcefa20faf0a078e767d7c4e4aed18e91ab62324ec0412ccb1db35365fec63a1556911f77248b754cf8f3bdc7e1772edae6e7d710f2d0494c65f2a42057a68ffe03da599717019fd77b6d2459d4b8b2e89167880d6416a082d562f6512c9ec05750134dfbfe456f47f31399069c86c205ea624ee3e4c27f0369d0bcd3fa5b4f6745455d71216bea12ca2befafc1196f33b259ffdf8c9b0eb17088c172c18b46a8d498f80d4adba8674d20b965727fa8be538be3ba49d1414ca8b788bd4b3842ebe2b3ddf8f43f7b57e3374bce7bcb809ccbd6e003c43c143a76026fbb412f7639f250eaa9f88d15ae58c9e829c7e80fb7e2daddbd1c1d777eed13e34ba685cbcf458bf2b98bfc00023334cf305f3a5903f540387044513dd3b5053860140746d175785527ce23a2604ee62a55ef0654978e1462c77464239cfd1a3bcca15de8dd68ca065813db44beb680726a3499dfb148094555597ef6c4886c673ca75314144f4ef81c9e0336bba6e331a667c7a7829fd1453fb7a3a4ef2c21427eb97eb444a221aca0c8cfa90a0dd961080fedc15917504385aa56e7ffc1aff4d52b08d92b4ff1d2a98b16478d436de8c2416dedccf5af72a0a5d7f0016c966884cb45d06c4ba78ca3641548888447c66e73f14e18094497a50b9ab38b1e29a54a96ee004103f183d53d230cb5b22559494b9f01d9bc2f649dcb090e037781dc2a6b5523a5be57e5cd3468dff1033b6617a80d2429e7b35743e23878d13e80a0e16ba85e5a61c50311c1bd56ca1e382262d5daff82ab31d5e516c47002bc1cd7bcfaeb137179344c8e47cd4a9876cec1773918736ad3b75aa355e0fdc20a94297448b61f86fccacea5803945d9a909d8c2e838f0384309b0c68ffbe1d90ad39d1ecdcd76afa191a373d111cfbee55cf72a41a437d4ee3970ad2894fb72145996d031841a2f982e2d743b8c6ef1a53db43b8f7cba29f8a0bc21d342b9b6c240142e635f181939b57251cbf76ddd93f2ec43f0814596fad25a948b6e984ee77a1f7382efa0fca4e72264a704633965d0d85e2186c904ce9287515d30133558fbeab998d74d84f03e289850d8a4a1095c56a4a</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">该文章已加密，请输入阅读密码！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
       </section>
 
       
       
         <nav class="article-nav">
+          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -185,23 +177,6 @@
       
         <a href="/2021/01/17/7b37cf60f4a0/" itemprop="url">
           <h2 class="card-text--title text-ellipsis">SSH简介与基本使用</h2>
-        </a>
-      
-      <div class="card-text--row">上一篇</div>
-    </div>
-  </article>
-</div>
-          
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://cdn.findcat.cn/fanerblog/20210113231654496.png"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/01/13/6e8064a66fd8/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Supervisor 进程管理的安装和使用</h2>
         </a>
       
       <div class="card-text--row">下一篇</div>
@@ -288,7 +263,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sed%E5%91%BD%E4%BB%A4%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">sed命令简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sed%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">sed常用操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%9F%A5%E6%89%BE%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%B9%B6%E6%9B%BF%E6%8D%A2%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="toc-number">2.1.</span> <span class="toc-text">1、查找某个字符，并替换某个字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E6%9F%A5%E6%89%BE%E4%BB%A5%E6%9F%90%E5%AD%97%E7%AC%A6%E5%BC%80%E5%A4%B4%E7%9A%84%E8%A1%8C%EF%BC%8C%E5%B9%B6%E6%95%B4%E8%A1%8C%E6%9B%BF%E6%8D%A2"><span class="toc-number">2.2.</span> <span class="toc-text">2、查找以某字符开头的行，并整行替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%9F%A5%E6%89%BE%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%9C%A8%E5%85%B6%E5%90%8E%E8%BE%B9%E6%8F%92%E5%85%A5%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">2.3.</span> <span class="toc-text">3、查找某个字符，在其后边插入字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%9C%A8%E6%96%87%E4%BB%B6%E6%9C%AB%E5%B0%BE%E6%96%B0%E8%B5%B7%E4%B8%80%E8%A1%8C%E6%8F%92%E5%85%A5%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">2.4.</span> <span class="toc-text">4、在文件末尾新起一行插入字符串</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">3.</span> <span class="toc-text">结语</span></a></li></ol>
+    
   </div>
 </section>
 
