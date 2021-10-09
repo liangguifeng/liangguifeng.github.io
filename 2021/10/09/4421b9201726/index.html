@@ -147,7 +147,15 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>近期业务需要观察 <code>Redis</code> 趋势走向，但是连接 <code>Redis</code> 需要通过内网连接，所以使用的 <code>Medis</code> 图形化工具进行 <code>ssh</code> 代理连接 <code>Redis</code> ，再使用私钥进行 <code>ssh</code> 连接时报错：<code>Cannot parse privateKey: Unsupported key format</code> </p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>是因为在创建公钥、私钥的时候，未添加 <code>PEM</code> 属性导致的，根据我查询的结果结合我的理解，大概是因为新版的 <code>ssh</code> 私钥和老版的私钥不兼容，所以需要生成支持 <code>PEM</code> 的密钥</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>重新生成 <code>ssh</code> 密钥的命令为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -m PEM -t rsa </span><br></pre></td></tr></table></figure>
+
+<p>当然，你也可以根据现有的密钥进行转换为支持 <code>PEM</code> 的密钥，命令为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -p -m PEM -f ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+
+
       </section>
 
       
