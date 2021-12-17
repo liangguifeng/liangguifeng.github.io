@@ -36,6 +36,8 @@
 
   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
   
 
@@ -51,6 +53,10 @@
       s.parentNode.insertBefore(hm, s);
     })();
   </script>
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="root-container">
@@ -58,47 +64,168 @@
 <!-- header container -->
 <header class="header-container">
   
-    <div class="post-image" style="background-image: url(https://cdn.findcat.cn/uPic/banner.png)"></div>
+    <div class="post-image" style="background-image: url(https://cdn.findcat.cn/uPic/海浪jpeg.jpeg)"></div>
   
 
   <!-- navbar -->
 <nav class="navbar">
-  <div class="navbar-content">
-    <!-- logo -->
-    <div class="navbar-logo">
-      <a href="/">
-        
-          犯二青年博客
-        
-      </a>
+    <div class="navbar-content">
+        <!-- logo -->
+        <div class="navbar-logo">
+            <a href="/">
+                
+                    犯二青年博客
+                
+            </a>
+        </div>
+        <!-- link -->
+        <div class="navbar-link">
+            <div class="navbar-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul class="navbar-list">
+
+                
+                    <li class="navbar-list-item"><a href="/">首页</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF">前端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0">其他文章</a></li>
+                
+                    <li class="navbar-list-item"><a href="/message">留言板</a></li>
+                
+                    <li class="navbar-list-item"><a href="/links">友链</a></li>
+                
+                    <li class="navbar-list-item"><a href="/about">关于</a></li>
+                
+
+                <!-- 触发模态框 -->
+                <li class="navbar-list-item">
+                    <a class="modal-trigger waves-effect waves-light" href="#" data-toggle="modal"
+                       data-target="#myModal">
+                        <span class="	glyphicon glyphicon-search"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <!-- link -->
-    <div class="navbar-link">
-      <div class="navbar-btn">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <ul class="navbar-list">
-        
-          <li class="navbar-list-item"><a href="/">首页</a></li>
-        
-          <li class="navbar-list-item"><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a></li>
-        
-          <li class="navbar-list-item"><a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF">前端技术</a></li>
-        
-          <li class="navbar-list-item"><a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0">其他文章</a></li>
-        
-          <li class="navbar-list-item"><a href="/message">留言板</a></li>
-        
-          <li class="navbar-list-item"><a href="/links">友链</a></li>
-        
-          <li class="navbar-list-item"><a href="/about">关于</a></li>
-        
-      </ul>
-    </div>
-  </div>
 </nav>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <input type="text" class="form-control" id="local-search-input" placeholder="请输入文章名称">
+            </div>
+            <div class="modal-body">
+                <div id="local-search-result" style="font-size: 18px">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    var inputArea = document.querySelector("#local-search-input");
+    console.log(inputArea)
+    if (inputArea) {
+
+        inputArea.onclick = function() {
+            inputArea.placeholder = '首次搜索，需载入索引文件，请稍候';
+
+            getSearchFile();
+            this.onclick = null
+        }
+        inputArea.onkeydown = function() { if (event.keyCode == 13) return false }
+    }
+
+    var getSearchFile = function() {
+        var path = "../search.xml";
+        // var path = "/search.xml";
+        searchFunc(path, 'local-search-input', 'local-search-result');
+    }
+
+
+    var searchFunc = function(path, search_id, content_id) {
+        'use strict'; //使用严格模式
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function( xmlResponse ) {
+                // 从xml中获取相应的标题等数据
+                var datas = $( "entry", xmlResponse ).map(function() {
+                    return {
+                        title: $( "title", this ).text(),
+                        content: $("content",this).text(),
+                        url: $( "url" , this).text()
+                    };
+                }).get();
+
+                //ID选择器
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+
+                console.log($resultContent)
+
+                $input.addEventListener('input', function(){
+                    var str='<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // 本地搜索主要部分
+                    datas.forEach(function(data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_url = data.url;
+                        var index_title = -1;
+                        var first_occur = -1;
+
+                        // 只匹配非空文章
+                        if(data_title != '') {
+                            keywords.forEach(function(keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+
+                                if( index_title < 0){
+                                    isMatch = false;
+                                }
+                            });
+                        }
+                        // 返回搜索结果
+                        if (isMatch) {
+                            //结果标签
+                            str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a>";
+
+                            if (first_occur >= 0) {
+                                // 拿出含有搜索字的部分
+                                var start = first_occur - 6;
+                                var end = first_occur + 6;
+                                if(start < 0){
+                                    start = 0;
+                                }
+                                if(start == 0){
+                                    end = 10;
+                                }
+                            }
+                        }
+                    })
+                    $resultContent.innerHTML = str;
+                })
+            }
+        })
+    };
+</script>
 
   
   
@@ -216,13 +343,26 @@
 
         <p>Powered by
             <a href="https://findcat.cn" target="_blank" rel="noopener noreferrer">犯二青年</a> 托管于
-            <a href="https://github.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom" rel="external nofollow" data-original-title="GitHub-全球最大同性交友社区">GitHub</a> &amp;
-            <a href="https://qiniu.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom" rel="external nofollow" data-original-title="七牛云-国内领先的企业级云服务商">七牛云</a>
+            <a href="https://github.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="GitHub-全球最大同性交友社区">GitHub</a> &amp;
+            <a href="https://qiniu.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="七牛云-国内领先的企业级云服务商">七牛云</a>
+
+            
+                <!--  访问统计-->
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <p>
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                <span class="post-meta-divider">|</span>
+                <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+            </p>
+            
         <p>
             <a href="javascript:;" id="theme-light">🌞 浅色</a>
             <a href="javascript:;" id="theme-dark">🌛 深色</a>
             <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
         </p>
+
     </div>
 </footer>
   </div>
