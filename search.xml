@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>为git配置SSH、HTTPS代理</title>
+      <link href="/2022/04/24/d69ca47a930b/"/>
+      <url>/2022/04/24/d69ca47a930b/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+            <tag> 开发小技巧 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>oh-my-zsh git命令快捷对照表</title>
       <link href="/2022/04/24/7478afef7546/"/>
       <url>/2022/04/24/7478afef7546/</url>
@@ -21,31 +46,6 @@
             <tag> zsh </tag>
             
             <tag> oh-my-zsh </tag>
-            
-            <tag> git </tag>
-            
-            <tag> 开发小技巧 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>为git配置SSH、HTTPS代理</title>
-      <link href="/2022/04/24/7e9bd1cf280b/"/>
-      <url>/2022/04/24/7e9bd1cf280b/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
             
             <tag> git </tag>
             
