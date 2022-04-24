@@ -285,7 +285,8 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>由于近期github被墙了，导致无法直接通过git进行一些拉取、推送代码操作，这里给大家推荐几种解决方法。<br><strong>注意</strong>：前提是要有代理</p>
+        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>由于近期github被墙了，导致无法直接通过git进行一些拉取、推送代码操作，就算开启全局代理也无济于事，这里给大家推荐几种解决方法。</p>
+<p><strong>注意</strong>：前提是要有代理(自行解决)</p>
 <h2 id="二、具体操作"><a href="#二、具体操作" class="headerlink" title="二、具体操作"></a>二、具体操作</h2><h3 id="1-配置git代理"><a href="#1-配置git代理" class="headerlink" title="1. 配置git代理"></a>1. 配置git代理</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.https://github.com.proxy socks5://127.0.0.1:1086</span><br></pre></td></tr></table></figure>
 <p>这个操作是在git的配置文件 <code>~/.gitconfig</code> 中,添加一个 <code>socket</code> 代理项</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[http &quot;https://github.com&quot;]</span><br><span class="line">    proxy = socks5://127.0.0.1:10880</span><br></pre></td></tr></table></figure>
