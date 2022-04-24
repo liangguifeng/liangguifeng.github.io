@@ -33,6 +33,31 @@
     
     
     <entry>
+      <title>为git配置SSH、HTTPS代理</title>
+      <link href="/2022/04/24/7e9bd1cf280b/"/>
+      <url>/2022/04/24/7e9bd1cf280b/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+            <tag> 开发小技巧 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Elasticsearch常用语句</title>
       <link href="/2022/02/22/60e423078b4d/"/>
       <url>/2022/02/22/60e423078b4d/</url>
