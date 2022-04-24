@@ -297,6 +297,8 @@
 <h3 id="3-临时使用HTTPS代理"><a href="#3-临时使用HTTPS代理" class="headerlink" title="3. 临时使用HTTPS代理"></a>3. 临时使用HTTPS代理</h3><p>这种只能适用于 <code>HTTPS</code> 协议，对于 <code>SSH</code> 协议是不生效的</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -c http.proxy=&quot;http://127.0.0.1:10881&quot; https://github.com/liangguifeng/hyperf-tool.git</span><br></pre></td></tr></table></figure>
 
+<p><strong>注意</strong>: 拉取私有仓库时，需要进行登录验证，输入 <code>Username</code> 为你 <code>github</code> 的账号，输入的 <code>Password</code> 并非你的 <code>github</code> 密码，而是 <code>github Token</code>，申请 <code>github Token</code> 的地址如下： <a target="_blank" rel="noopener" href="https://github.com/settings/tokens">https://github.com/settings/tokens</a><br><img src="https://cdn.findcat.cn/uPic/BeUdE1.png"></p>
+
       </section>
 
       
