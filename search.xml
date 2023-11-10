@@ -4,6 +4,554 @@
   
     
     <entry>
+      <title>hyperf使用Xdebug调试断点</title>
+      <link href="/2023/11/11/8a6bbd99fc7f/"/>
+      <url>/2023/11/11/8a6bbd99fc7f/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Swoole </tag>
+            
+            <tag> hyperf </tag>
+            
+            <tag> Xdebug </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Ubuntu服务器安装Chrome和ChromeDriver</title>
+      <link href="/2023/05/30/1c1a5779891d/"/>
+      <url>/2023/05/30/1c1a5779891d/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> Chrome </category>
+          
+          <category> Ubuntu </category>
+          
+          <category> ChromeDP </category>
+          
+          <category> ChromeDriver </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ubuntu </tag>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> Chrome </tag>
+            
+            <tag> ChromeDP </tag>
+            
+            <tag> ChromeDriver </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>EFK实践(三) - 使用Filebeat采集日志</title>
+      <link href="/2023/05/20/6a61f6f84884/"/>
+      <url>/2023/05/20/6a61f6f84884/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> EFK </category>
+          
+          <category> ElasticSearch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> ElasticSearch </tag>
+            
+            <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>EFK实践(二) - EFK环境的搭建</title>
+      <link href="/2023/05/20/dbb8199955f5/"/>
+      <url>/2023/05/20/dbb8199955f5/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> EFK </category>
+          
+          <category> ElasticSearch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> ElasticSearch </tag>
+            
+            <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>EFK实践(一) - ELK和EFK的区别</title>
+      <link href="/2023/05/20/379e58856512/"/>
+      <url>/2023/05/20/379e58856512/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> EFK </category>
+          
+          <category> ElasticSearch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> ElasticSearch </tag>
+            
+            <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ELK实践(二) - 使用Logstash采集日志</title>
+      <link href="/2023/05/20/43a78f515b84/"/>
+      <url>/2023/05/20/43a78f515b84/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> ELK </category>
+          
+          <category> ElasticSearch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> ElasticSearch </tag>
+            
+            <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ELK实践(一) - ELK环境搭建</title>
+      <link href="/2023/05/20/6d7d721e82f8/"/>
+      <url>/2023/05/20/6d7d721e82f8/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> ELK </category>
+          
+          <category> ElasticSearch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> ElasticSearch </tag>
+            
+            <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL Dump做数据迁移</title>
+      <link href="/2023/05/19/e5bcf03f380f/"/>
+      <url>/2023/05/19/e5bcf03f380f/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> MySQL Dump </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> 数据迁移 </tag>
+            
+            <tag> MySQL Dump </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ElasticSearch Dump做数据迁移</title>
+      <link href="/2023/05/19/d1c44edd9e60/"/>
+      <url>/2023/05/19/d1c44edd9e60/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> ElasticSearch Dump </category>
+          
+          <category> ElasticSearch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 后端技术 </tag>
+            
+            <tag> ElasticSearch </tag>
+            
+            <tag> ElasticSearch Dump </tag>
+            
+            <tag> 数据迁移 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>如何在GoFrame中使用asynq</title>
+      <link href="/2023/05/15/9cd9ef1f5e8e/"/>
+      <url>/2023/05/15/9cd9ef1f5e8e/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> 消息队列 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> golang </tag>
+            
+            <tag> 消息队列 </tag>
+            
+            <tag> asynq </tag>
+            
+            <tag> asynqmon </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>记一次签到积分薅羊毛过程和思路</title>
+      <link href="/2023/05/07/625c871b5f93/"/>
+      <url>/2023/05/07/625c871b5f93/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> 薅羊毛 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Charles </tag>
+            
+            <tag> web逆向 </tag>
+            
+            <tag> 薅羊毛 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>开放接口API使用签名加密方法</title>
+      <link href="/2023/02/25/7ad6abe212c6/"/>
+      <url>/2023/02/25/7ad6abe212c6/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> 开发小技巧 </category>
+          
+          <category> 对称加密 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> API签名 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PHP使用swoole并发编程是否会产生线程安全问题</title>
+      <link href="/2022/07/29/7535df9926bd/"/>
+      <url>/2022/07/29/7535df9926bd/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 并发编程 </tag>
+            
+            <tag> Swoole </tag>
+            
+            <tag> hyperf </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Go并发编程容易产生的线程安全问题</title>
+      <link href="/2022/07/29/0483c670372b/"/>
+      <url>/2022/07/29/0483c670372b/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+          <category> 踩坑日记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Golang </tag>
+            
+            <tag> 并发编程 </tag>
+            
+            <tag> Swoole </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在Github使用Actions工具部署laravel项目</title>
+      <link href="/2022/05/22/00ba1b44d388/"/>
+      <url>/2022/05/22/00ba1b44d388/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> github </tag>
+            
+            <tag> 运维技巧 </tag>
+            
+            <tag> Laravel </tag>
+            
+            <tag> Github Actions </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>二、Docker Desktop安装Kubernetes Dashboard</title>
+      <link href="/2022/05/08/ba74b9d9a674/"/>
+      <url>/2022/05/08/ba74b9d9a674/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> k8s </tag>
+            
+            <tag> Docker Desktop </tag>
+            
+            <tag> k8s教程系列 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一、Docker Desktop教程前言</title>
+      <link href="/2022/04/25/bcd41d6364c9/"/>
+      <url>/2022/04/25/bcd41d6364c9/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> k8s </tag>
+            
+            <tag> Docker Desktop </tag>
+            
+            <tag> k8s教程系列 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Go语言中声明变量的分配内存地址与不分配内存地址</title>
+      <link href="/2022/04/25/6d55b2bfe968/"/>
+      <url>/2022/04/25/6d55b2bfe968/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Golang </tag>
+            
+            <tag> 踩坑日记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>为git配置SSH、HTTPS代理</title>
       <link href="/2022/04/24/d69ca47a930b/"/>
       <url>/2022/04/24/d69ca47a930b/</url>
@@ -143,9 +691,9 @@
       
         <tags>
             
-            <tag> SSH </tag>
-            
             <tag> Redis </tag>
+            
+            <tag> SSH </tag>
             
         </tags>
       
@@ -155,8 +703,8 @@
     
     <entry>
       <title>Go中的 Interceptor 拦截器</title>
-      <link href="/2021/08/20/6ce0112dfa69/"/>
-      <url>/2021/08/20/6ce0112dfa69/</url>
+      <link href="/2021/08/20/b52a11d1e8b1/"/>
+      <url>/2021/08/20/b52a11d1e8b1/</url>
       
       
       <categories>
@@ -278,8 +826,8 @@
     
     <entry>
       <title>Ubuntu20.04安装（LNMP）Nginx、MySQL8、PHP7.4开发环境</title>
-      <link href="/2021/01/13/edf2f6bdf09f/"/>
-      <url>/2021/01/13/edf2f6bdf09f/</url>
+      <link href="/2021/01/13/aa536e192cda/"/>
+      <url>/2021/01/13/aa536e192cda/</url>
       
       
       <categories>
@@ -328,8 +876,8 @@
     
     <entry>
       <title>phpstorm配置php-cs-fixer代码格式化插件</title>
-      <link href="/2021/01/13/bcd1ed306859/"/>
-      <url>/2021/01/13/bcd1ed306859/</url>
+      <link href="/2021/01/13/9c050516d816/"/>
+      <url>/2021/01/13/9c050516d816/</url>
       
       
       <categories>
@@ -399,8 +947,8 @@
     
     <entry>
       <title>MySQL修改数据表</title>
-      <link href="/2021/01/13/88c9afcfbe0f/"/>
-      <url>/2021/01/13/88c9afcfbe0f/</url>
+      <link href="/2021/01/13/d0a64937266c/"/>
+      <url>/2021/01/13/d0a64937266c/</url>
       
       
       <categories>
@@ -422,8 +970,8 @@
     
     <entry>
       <title>MySQL数据的常用操作---持续更新</title>
-      <link href="/2021/01/13/ec73dd9b377c/"/>
-      <url>/2021/01/13/ec73dd9b377c/</url>
+      <link href="/2021/01/13/c3d85fd91651/"/>
+      <url>/2021/01/13/c3d85fd91651/</url>
       
       
       <categories>
@@ -445,8 +993,8 @@
     
     <entry>
       <title>MySQL的增删改查</title>
-      <link href="/2021/01/13/fa2fafaa2f99/"/>
-      <url>/2021/01/13/fa2fafaa2f99/</url>
+      <link href="/2021/01/13/4e4e30d905b3/"/>
+      <url>/2021/01/13/4e4e30d905b3/</url>
       
       
       <categories>
@@ -468,8 +1016,8 @@
     
     <entry>
       <title>MySQL的外键约束</title>
-      <link href="/2021/01/13/a437691bc0ae/"/>
-      <url>/2021/01/13/a437691bc0ae/</url>
+      <link href="/2021/01/13/6e687c3837e7/"/>
+      <url>/2021/01/13/6e687c3837e7/</url>
       
       
       <categories>
@@ -491,8 +1039,8 @@
     
     <entry>
       <title>MySQL的数据表</title>
-      <link href="/2021/01/13/c6757ed43998/"/>
-      <url>/2021/01/13/c6757ed43998/</url>
+      <link href="/2021/01/13/8a402748cf49/"/>
+      <url>/2021/01/13/8a402748cf49/</url>
       
       
       <categories>
@@ -514,8 +1062,8 @@
     
     <entry>
       <title>MySQL的数据类型</title>
-      <link href="/2021/01/13/e3d27bf45433/"/>
-      <url>/2021/01/13/e3d27bf45433/</url>
+      <link href="/2021/01/13/bbd3800125fc/"/>
+      <url>/2021/01/13/bbd3800125fc/</url>
       
       
       <categories>
@@ -537,8 +1085,8 @@
     
     <entry>
       <title>Mac下搭建php7.3、MySQL5.7,、Nginx环境</title>
-      <link href="/2021/01/13/8230cbb722d4/"/>
-      <url>/2021/01/13/8230cbb722d4/</url>
+      <link href="/2021/01/13/426914b91805/"/>
+      <url>/2021/01/13/426914b91805/</url>
       
       
       <categories>
@@ -560,8 +1108,8 @@
     
     <entry>
       <title>laravel使用passport做接口认证设置过期时间问题</title>
-      <link href="/2021/01/13/e9ecb7e53a78/"/>
-      <url>/2021/01/13/e9ecb7e53a78/</url>
+      <link href="/2021/01/13/3bae48129860/"/>
+      <url>/2021/01/13/3bae48129860/</url>
       
       
       <categories>
@@ -585,8 +1133,8 @@
     
     <entry>
       <title>laravel使用 Passport 服务做 API 认证</title>
-      <link href="/2021/01/13/ffcb18f18ab9/"/>
-      <url>/2021/01/13/ffcb18f18ab9/</url>
+      <link href="/2021/01/13/29e5013b81ed/"/>
+      <url>/2021/01/13/29e5013b81ed/</url>
       
       
       <categories>
@@ -781,8 +1329,8 @@
     
     <entry>
       <title>Laravel 的 optional 辅助函数</title>
-      <link href="/2021/01/13/3e4090510739/"/>
-      <url>/2021/01/13/3e4090510739/</url>
+      <link href="/2021/01/13/bc7f5d0b812e/"/>
+      <url>/2021/01/13/bc7f5d0b812e/</url>
       
       
       <categories>
@@ -900,8 +1448,8 @@
     
     <entry>
       <title>laravel扩展包开发：引入和使用</title>
-      <link href="/2021/01/13/144ecad617ae/"/>
-      <url>/2021/01/13/144ecad617ae/</url>
+      <link href="/2021/01/13/5c3772648a24/"/>
+      <url>/2021/01/13/5c3772648a24/</url>
       
       
       <categories>
@@ -923,8 +1471,8 @@
     
     <entry>
       <title>laravel扩展包开发：将远程包改为本地包便于调试</title>
-      <link href="/2021/01/13/8879f40a58f1/"/>
-      <url>/2021/01/13/8879f40a58f1/</url>
+      <link href="/2021/01/13/5685eae802ec/"/>
+      <url>/2021/01/13/5685eae802ec/</url>
       
       
       <categories>
@@ -1085,29 +1633,6 @@
     
     
     <entry>
-      <title>phpstorm设置方法默认折叠</title>
-      <link href="/2021/01/10/bda73a3a54dc/"/>
-      <url>/2021/01/10/bda73a3a54dc/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 开发小技巧 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Hyperf 使用 JWT 做接口认证</title>
       <link href="/2021/01/10/75a515ea8f7f/"/>
       <url>/2021/01/10/75a515ea8f7f/</url>
@@ -1132,8 +1657,8 @@
     
     <entry>
       <title>Laravel 邮件推送系统异常</title>
-      <link href="/2021/01/10/0394c9fcf9f0/"/>
-      <url>/2021/01/10/0394c9fcf9f0/</url>
+      <link href="/2021/01/10/7a13bac707f3/"/>
+      <url>/2021/01/10/7a13bac707f3/</url>
       
       
       <categories>
@@ -1155,8 +1680,8 @@
     
     <entry>
       <title>Laravel-S 项目之初体验</title>
-      <link href="/2021/01/10/96beae56ebe6/"/>
-      <url>/2021/01/10/96beae56ebe6/</url>
+      <link href="/2021/01/10/163022df5f86/"/>
+      <url>/2021/01/10/163022df5f86/</url>
       
       
       <categories>
@@ -1180,8 +1705,8 @@
     
     <entry>
       <title>PhpStorm 如何优雅的调试 Hyperf</title>
-      <link href="/2021/01/10/db69fd2f83a7/"/>
-      <url>/2021/01/10/db69fd2f83a7/</url>
+      <link href="/2021/01/10/abcabee36196/"/>
+      <url>/2021/01/10/abcabee36196/</url>
       
       
       <categories>
