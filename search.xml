@@ -47,9 +47,9 @@
             
             <tag> Swoole </tag>
             
-            <tag> hyperf </tag>
-            
             <tag> Xdebug </tag>
+            
+            <tag> hyperf </tag>
             
         </tags>
       
@@ -119,9 +119,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -152,9 +152,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -185,9 +185,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -218,9 +218,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Logstash </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
             
         </tags>
       
@@ -251,9 +251,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Logstash </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
             
         </tags>
       
