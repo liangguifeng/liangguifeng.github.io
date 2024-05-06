@@ -261,9 +261,9 @@
   
     <li><a href="/tags/Swoole/">🏷️ Swoole</a></li>
   
-    <li><a href="/tags/Xdebug/">🏷️ Xdebug</a></li>
-  
     <li><a href="/tags/hyperf/">🏷️ hyperf</a></li>
+  
+    <li><a href="/tags/Xdebug/">🏷️ Xdebug</a></li>
   
 </ul>
         </div>
@@ -298,7 +298,7 @@
 <h2 id="3-本地环境使用Xdebug"><a href="#3-本地环境使用Xdebug" class="headerlink" title="3. 本地环境使用Xdebug"></a>3. 本地环境使用Xdebug</h2><h3 id="3-1-在php-ini配置Xdebug"><a href="#3-1-在php-ini配置Xdebug" class="headerlink" title="3.1 在php.ini配置Xdebug"></a>3.1 在php.ini配置Xdebug</h3><p>具体的配置如下：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Xdebug]</span></span><br><span class="line"><span class="attr">zend_extension</span>=<span class="string">&quot;xdebug.so&quot;</span></span><br><span class="line"><span class="comment"># xdebug模式</span></span><br><span class="line"><span class="attr">xdebug.mode</span>=debug</span><br><span class="line"></span><br><span class="line"><span class="comment"># 请求开始时自动开启</span></span><br><span class="line"><span class="attr">xdebug.start_with_request</span>=<span class="literal">yes</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># client_host client_port 是 xdebug v3.x 中才有的选项</span></span><br><span class="line"><span class="attr">xdebug.client_host</span>=<span class="number">127.0</span>.<span class="number">0.1</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处为监听端口，配置集成开发环境时需要（重要）</span></span><br><span class="line"><span class="attr">xdebug.client_port</span>=<span class="number">9003</span></span><br><span class="line"><span class="attr">xdebug.collect_return</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处搭配的 PHPSTORM，配置 PHPSTORM 时需要</span></span><br><span class="line"><span class="attr">xdebug.idekey</span>=PHPSTORM </span><br><span class="line"></span><br><span class="line"><span class="comment">#   下面配置项，是在 xdebug v2.x 下常用的配置项，不要在 xdebug v3.x 下使用</span></span><br><span class="line"><span class="comment">##   xdebug.remote_host=127.0.0.1</span></span><br><span class="line"><span class="comment">##   xdebug.remote_handle=dbgp</span></span><br><span class="line"><span class="comment">##   xdebug.remote_enable=on</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-2-1-phpstorm中增加【hyperf运行脚本】-与3-2-2选其中一种即可"><a href="#3-2-1-phpstorm中增加【hyperf运行脚本】-与3-2-2选其中一种即可" class="headerlink" title="3.2.1 phpstorm中增加【hyperf运行脚本】 - 与3.2.2选其中一种即可"></a>3.2.1 phpstorm中增加【hyperf运行脚本】 - 与3.2.2选其中一种即可</h3><p>点击【运行/调试配置】-&gt; 左上角+号 -&gt; PHP脚本<br>名称：hyperf-xdebug (可任意编写)<br>文件：/Users/liang/www/github.com/liangguifeng/hyperf-test/bin/hyperf.php (对应调试hyperf项目的下bin/hyperf.php文件)<br>实参：start (hyperf的启动参数)<br>解释器：/usr/local/Cellar/<a href="mailto:&#x70;&#104;&#x70;&#x40;&#56;&#46;&#x31;">&#x70;&#104;&#x70;&#x40;&#56;&#46;&#x31;</a>/8.1.21/bin/php(8.1.21) (自己的php路径，需要提前在phpstorm中配置号)</p>
+<h3 id="3-2-1-phpstorm中增加【hyperf运行脚本】-与3-2-2选其中一种即可"><a href="#3-2-1-phpstorm中增加【hyperf运行脚本】-与3-2-2选其中一种即可" class="headerlink" title="3.2.1 phpstorm中增加【hyperf运行脚本】 - 与3.2.2选其中一种即可"></a>3.2.1 phpstorm中增加【hyperf运行脚本】 - 与3.2.2选其中一种即可</h3><p>点击【运行/调试配置】-&gt; 左上角+号 -&gt; PHP脚本<br>名称：hyperf-xdebug (可任意编写)<br>文件：/Users/liang/www/github.com/liangguifeng/hyperf-test/bin/hyperf.php (对应调试hyperf项目的下bin/hyperf.php文件)<br>实参：start (hyperf的启动参数)<br>解释器：/usr/local/Cellar/<a href="mailto:&#x70;&#x68;&#112;&#x40;&#x38;&#46;&#x31;">&#x70;&#x68;&#112;&#x40;&#x38;&#46;&#x31;</a>/8.1.21/bin/php(8.1.21) (自己的php路径，需要提前在phpstorm中配置号)</p>
 <p>如图：<br><img src="https://cdn.findcat.cn/uPic/jPBu00.png"></p>
 <p>调试【hyperf运行脚本】<br><img src="https://cdn.findcat.cn/uPic/rzmn47.png"></p>
 <h3 id="3-2-2-phpstorm中配置debug监听-与3-2-1选其中一种即可"><a href="#3-2-2-phpstorm中配置debug监听-与3-2-1选其中一种即可" class="headerlink" title="3.2.2 phpstorm中配置debug监听 - 与3.2.1选其中一种即可"></a>3.2.2 phpstorm中配置debug监听 - 与3.2.1选其中一种即可</h3><p><img src="https://cdn.findcat.cn/uPic/V6nQ1G.png"></p>
@@ -469,14 +469,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">
-            其他文章 (4)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">
+            后端技术 (64)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">
-            后端技术 (64)
+          <a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">
+            其他文章 (4)
           </a>
         </li>
       
@@ -541,14 +541,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            微服务 (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/Chrome/Ubuntu/">
+            Ubuntu (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/Chrome/Ubuntu/">
-            Ubuntu (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            微服务 (1)
           </a>
         </li>
       
@@ -571,14 +571,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/gRPC/">
-            gRPC (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/Chrome/Ubuntu/ChromeDP/">
+            ChromeDP (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/Chrome/Ubuntu/ChromeDP/">
-            ChromeDP (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/gRPC/">
+            gRPC (1)
           </a>
         </li>
       
