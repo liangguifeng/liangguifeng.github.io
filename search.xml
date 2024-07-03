@@ -45,9 +45,9 @@
       
         <tags>
             
-            <tag> Swoole </tag>
-            
             <tag> hyperf </tag>
+            
+            <tag> Swoole </tag>
             
             <tag> Xdebug </tag>
             
@@ -429,11 +429,11 @@
       
         <tags>
             
+            <tag> hyperf </tag>
+            
             <tag> 并发编程 </tag>
             
             <tag> Swoole </tag>
-            
-            <tag> hyperf </tag>
             
         </tags>
       
@@ -458,11 +458,11 @@
       
         <tags>
             
-            <tag> Golang </tag>
-            
             <tag> 并发编程 </tag>
             
             <tag> Swoole </tag>
+            
+            <tag> Golang </tag>
             
         </tags>
       
