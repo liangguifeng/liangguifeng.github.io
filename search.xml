@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>使用mysqldump迁移数据库</title>
+      <link href="/2024/10/14/a961d2ad5849/"/>
+      <url>/2024/10/14/a961d2ad5849/</url>
+      
+      
+      <categories>
+          
+          <category> 后端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> mysqldump </tag>
+            
+            <tag> 数据库迁移 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>浅入浅出微服务</title>
       <link href="/2024/04/24/7b68f058b3c4/"/>
       <url>/2024/04/24/7b68f058b3c4/</url>
@@ -770,9 +797,9 @@
       
         <tags>
             
-            <tag> SSH </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> SSH </tag>
             
         </tags>
       
