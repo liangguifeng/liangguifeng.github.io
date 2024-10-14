@@ -303,7 +303,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE test_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>
 
 <h2 id="3-执行下面命令"><a href="#3-执行下面命令" class="headerlink" title="3. 执行下面命令"></a>3. 执行下面命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysqldump </span><br><span class="line">-h [目标数据库地址] \</span><br><span class="line">-P[目标数据库端口] \</span><br><span class="line">-u [源数据库用户名] \</span><br><span class="line">-p[源数据库密码] \</span><br><span class="line">[源数据库名] \</span><br><span class="line">--ssl-mode=DISABLED | \</span><br><span class="line">mysql \</span><br><span class="line">-h [目标数据库地址] \</span><br><span class="line">-P[目标数据库端口] \</span><br><span class="line">-u [目标数据库用户名] \</span><br><span class="line">-p[目标数据库密码] \</span><br><span class="line">[目标数据库名] \</span><br><span class="line">--ssl-mode=DISABLED</span><br></pre></td></tr></table></figure>
-<h2 id="4-完成"><a href="#4-完成" class="headerlink" title="4. 完成"></a>4. 完成</h2><p>通过上面的命令就完成了整体的数据库迁移，但是如果本地无法访问目标数据库，这里可能就需要拆分一下操作，以 <code>|</code> 管道符来分割操作，<br>先将第一步mysqldump导出的sql文件保存，并上传到可访问目标数据库的服务器上，再执行第二步的mysql命令，将sql文件导入到目标数据库中。</p>
+<h2 id="4-完成"><a href="#4-完成" class="headerlink" title="4. 完成"></a>4. 完成</h2><p>通过上面的命令就完成了整体的数据库迁移，但是如果本地无法访问目标数据库，这里可能就需要拆分一下操作，以 <code>|</code> 管道符来分割操作，先将第一步mysqldump导出的sql文件保存，并上传到可访问目标数据库的服务器上，再执行第二步的mysql命令，将sql文件导入到目标数据库中。</p>
 
       </section>
 
@@ -455,26 +455,26 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/EFK/">
-            EFK (3)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/ELK/">
             ELK (2)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/EFK/ElasticSearch/">
-            ElasticSearch (3)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/EFK/">
+            EFK (3)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/ELK/ElasticSearch/">
             ElasticSearch (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/EFK/ElasticSearch/">
+            ElasticSearch (3)
           </a>
         </li>
       
@@ -497,32 +497,8 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/">
-            开发小技巧 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            微服务 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
-            对称加密 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/ElasticSearch-Dump/">
             ElasticSearch Dump (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/gRPC/">
-            gRPC (1)
           </a>
         </li>
       
@@ -539,14 +515,38 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/Chrome/">
-            Chrome (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/">
+            开发小技巧 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/MySQL-Dump/MySQL/">
             MySQL (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
+            对称加密 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            微服务 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/Chrome/">
+            Chrome (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/gRPC/">
+            gRPC (1)
           </a>
         </li>
       
