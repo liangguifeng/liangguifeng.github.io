@@ -146,9 +146,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -179,9 +179,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -212,9 +212,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -245,9 +245,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Logstash </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
             
         </tags>
       
@@ -278,9 +278,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Logstash </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
             
         </tags>
       
@@ -889,9 +889,9 @@
             
             <tag> MySQL </tag>
             
-            <tag> Git </tag>
-            
             <tag> Ubuntu </tag>
+            
+            <tag> Git </tag>
             
         </tags>
       
