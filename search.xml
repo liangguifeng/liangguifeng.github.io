@@ -5,8 +5,8 @@
     
     <entry>
       <title>使用mysqldump迁移数据库</title>
-      <link href="/2024/10/14/a961d2ad5849/"/>
-      <url>/2024/10/14/a961d2ad5849/</url>
+      <link href="/2024/10/14/6a5f0160732f/"/>
+      <url>/2024/10/14/6a5f0160732f/</url>
       
       
       <categories>
@@ -146,9 +146,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -179,9 +179,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -212,9 +212,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Kibana </tag>
-            
             <tag> Filebeat </tag>
+            
+            <tag> Kibana </tag>
             
         </tags>
       
@@ -245,9 +245,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Logstash </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
             
         </tags>
       
@@ -278,9 +278,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Logstash </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Logstash </tag>
             
         </tags>
       
@@ -289,31 +289,25 @@
     
     
     <entry>
-      <title>MySQL Dump做数据迁移</title>
-      <link href="/2023/05/19/e5bcf03f380f/"/>
-      <url>/2023/05/19/e5bcf03f380f/</url>
+      <title>mysqldump做数据备份</title>
+      <link href="/2023/05/19/64e957d4a6fb/"/>
+      <url>/2023/05/19/64e957d4a6fb/</url>
       
       
       <categories>
           
           <category> 后端技术 </category>
           
-          <category> MySQL Dump </category>
-          
-          <category> MySQL </category>
-          
       </categories>
       
       
         <tags>
             
-            <tag> 后端技术 </tag>
-            
             <tag> MySQL </tag>
             
-            <tag> 数据迁移 </tag>
+            <tag> mysqldump </tag>
             
-            <tag> MySQL Dump </tag>
+            <tag> 数据库备份 </tag>
             
         </tags>
       
