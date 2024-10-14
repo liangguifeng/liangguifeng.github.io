@@ -74,9 +74,9 @@
             
             <tag> Swoole </tag>
             
-            <tag> hyperf </tag>
-            
             <tag> Xdebug </tag>
+            
+            <tag> hyperf </tag>
             
         </tags>
       
@@ -146,9 +146,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Filebeat </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Filebeat </tag>
             
         </tags>
       
@@ -179,9 +179,9 @@
             
             <tag> ElasticSearch </tag>
             
-            <tag> Filebeat </tag>
-            
             <tag> Kibana </tag>
+            
+            <tag> Filebeat </tag>
             
         </tags>
       
@@ -212,75 +212,9 @@
             
             <tag> ElasticSearch </tag>
             
+            <tag> Kibana </tag>
+            
             <tag> Filebeat </tag>
-            
-            <tag> Kibana </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>ELK实践(二) - 使用Logstash采集日志</title>
-      <link href="/2023/05/20/85d583ad3a46/"/>
-      <url>/2023/05/20/85d583ad3a46/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-          <category> ELK </category>
-          
-          <category> ElasticSearch </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 后端技术 </tag>
-            
-            <tag> ElasticSearch </tag>
-            
-            <tag> Kibana </tag>
-            
-            <tag> Logstash </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>ELK实践(一) - ELK环境搭建</title>
-      <link href="/2023/05/20/edc1f0128e9d/"/>
-      <url>/2023/05/20/edc1f0128e9d/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-          <category> ELK </category>
-          
-          <category> ElasticSearch </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 后端技术 </tag>
-            
-            <tag> ElasticSearch </tag>
-            
-            <tag> Kibana </tag>
-            
-            <tag> Logstash </tag>
             
         </tags>
       
@@ -349,37 +283,6 @@
     
     
     <entry>
-      <title>如何在GoFrame中使用asynq</title>
-      <link href="/2023/05/15/22a8873ffe2c/"/>
-      <url>/2023/05/15/22a8873ffe2c/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-          <category> 消息队列 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> golang </tag>
-            
-            <tag> 消息队列 </tag>
-            
-            <tag> asynq </tag>
-            
-            <tag> asynqmon </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>记一次签到积分薅羊毛过程和思路</title>
       <link href="/2023/05/07/3b3382c4d582/"/>
       <url>/2023/05/07/3b3382c4d582/</url>
@@ -428,33 +331,6 @@
         <tags>
             
             <tag> API签名 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PHP使用swoole并发编程是否会产生线程安全问题</title>
-      <link href="/2022/07/29/f18b77cfdacd/"/>
-      <url>/2022/07/29/f18b77cfdacd/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 并发编程 </tag>
-            
-            <tag> Swoole </tag>
-            
-            <tag> hyperf </tag>
             
         </tags>
       
@@ -567,31 +443,6 @@
             <tag> Docker Desktop </tag>
             
             <tag> k8s教程系列 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Go语言中声明变量的分配内存地址与不分配内存地址</title>
-      <link href="/2022/04/25/35da95494b57/"/>
-      <url>/2022/04/25/35da95494b57/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Golang </tag>
-            
-            <tag> 踩坑日记 </tag>
             
         </tags>
       
@@ -850,29 +701,6 @@
     
     
     <entry>
-      <title>如何使用阿里云效部署Java、PHP项目</title>
-      <link href="/2021/01/13/d8ea5df89338/"/>
-      <url>/2021/01/13/d8ea5df89338/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> deploy </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Ubuntu20.04安装（LNMP）Nginx、MySQL8、PHP7.4开发环境</title>
       <link href="/2021/01/13/38cd2c1363f4/"/>
       <url>/2021/01/13/38cd2c1363f4/</url>
@@ -889,9 +717,9 @@
             
             <tag> MySQL </tag>
             
-            <tag> Ubuntu </tag>
-            
             <tag> Git </tag>
+            
+            <tag> Ubuntu </tag>
             
         </tags>
       
@@ -1487,75 +1315,6 @@
         <tags>
             
             <tag> Docker </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>laravel扩展包开发：引入和使用</title>
-      <link href="/2021/01/13/b3feebf9635b/"/>
-      <url>/2021/01/13/b3feebf9635b/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>laravel扩展包开发：将远程包改为本地包便于调试</title>
-      <link href="/2021/01/13/4039b5689a7d/"/>
-      <url>/2021/01/13/4039b5689a7d/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>2019年工作总结</title>
-      <link href="/2021/01/13/ee642e7fa43a/"/>
-      <url>/2021/01/13/ee642e7fa43a/</url>
-      
-      
-      <categories>
-          
-          <category> 其他文章 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 工作总结 </tag>
             
         </tags>
       
