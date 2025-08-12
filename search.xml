@@ -290,7 +290,7 @@
       
       <categories>
           
-          <category> 后端技术 </category>
+          <category> 前端技术 </category>
           
           <category> 薅羊毛 </category>
           
@@ -814,29 +814,6 @@
             <tag> deploy </tag>
             
             <tag> Jenkins </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Docker容器的理解</title>
-      <link href="/2021/01/13/de976db91cb4/"/>
-      <url>/2021/01/13/de976db91cb4/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Docker </tag>
             
         </tags>
       
