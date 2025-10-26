@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>如何在没有电信机顶盒的情况下使用电信IPTV服务</title>
+      <link href="/2025/10/26/b0c01b18f367/"/>
+      <url>/2025/10/26/b0c01b18f367/</url>
+      
+      
+      <categories>
+          
+          <category> 其他文章 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> IPTV </tag>
+            
+            <tag> UDP </tag>
+            
+            <tag> 海南电信 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用mysqldump迁移数据库</title>
       <link href="/2024/10/14/a961d2ad5849/"/>
       <url>/2024/10/14/a961d2ad5849/</url>
@@ -290,7 +317,7 @@
       
       <categories>
           
-          <category> 后端技术 </category>
+          <category> 前端技术 </category>
           
           <category> 薅羊毛 </category>
           
@@ -382,11 +409,11 @@
       
         <tags>
             
-            <tag> Laravel </tag>
-            
             <tag> github </tag>
             
             <tag> 运维技巧 </tag>
+            
+            <tag> Laravel </tag>
             
             <tag> Github Actions </tag>
             
@@ -576,31 +603,6 @@
     
     
     <entry>
-      <title>使用ssh代理连接Redis报错Cannot parse privateKey Unsupported key format</title>
-      <link href="/2021/10/09/9a4da981c9a1/"/>
-      <url>/2021/10/09/9a4da981c9a1/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Redis </tag>
-            
-            <tag> SSH </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Go中的 Interceptor 拦截器</title>
       <link href="/2021/08/20/6917c4da4f74/"/>
       <url>/2021/08/20/6917c4da4f74/</url>
@@ -620,31 +622,6 @@
             <tag> gRPC </tag>
             
             <tag> 微服务 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>SSH简介与基本使用</title>
-      <link href="/2021/01/17/af6a4f330cba/"/>
-      <url>/2021/01/17/af6a4f330cba/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SSH </tag>
-            
-            <tag> Linux </tag>
             
         </tags>
       
@@ -728,29 +705,6 @@
     
     
     <entry>
-      <title>Redis的初步认识</title>
-      <link href="/2021/01/13/04a20ea1c4b2/"/>
-      <url>/2021/01/13/04a20ea1c4b2/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Redis </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>phpstorm配置php-cs-fixer代码格式化插件</title>
       <link href="/2021/01/13/15c5f65579f4/"/>
       <url>/2021/01/13/15c5f65579f4/</url>
@@ -765,32 +719,9 @@
       
         <tags>
             
-            <tag> PhpStorm </tag>
-            
             <tag> php-cs-fixer </tag>
             
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Windows10安装Redis</title>
-      <link href="/2021/01/13/28962963d70a/"/>
-      <url>/2021/01/13/28962963d70a/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Redis </tag>
+            <tag> PhpStorm </tag>
             
         </tags>
       
@@ -822,244 +753,6 @@
     
     
     <entry>
-      <title>MySQL修改数据表</title>
-      <link href="/2021/01/13/d0a64937266c/"/>
-      <url>/2021/01/13/d0a64937266c/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>MySQL数据的常用操作---持续更新</title>
-      <link href="/2021/01/13/c3d85fd91651/"/>
-      <url>/2021/01/13/c3d85fd91651/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>MySQL的增删改查</title>
-      <link href="/2021/01/13/4e4e30d905b3/"/>
-      <url>/2021/01/13/4e4e30d905b3/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>MySQL的外键约束</title>
-      <link href="/2021/01/13/6e687c3837e7/"/>
-      <url>/2021/01/13/6e687c3837e7/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>MySQL的数据表</title>
-      <link href="/2021/01/13/8a402748cf49/"/>
-      <url>/2021/01/13/8a402748cf49/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>MySQL的数据类型</title>
-      <link href="/2021/01/13/bbd3800125fc/"/>
-      <url>/2021/01/13/bbd3800125fc/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Mac下搭建php7.3、MySQL5.7,、Nginx环境</title>
-      <link href="/2021/01/13/374800876a91/"/>
-      <url>/2021/01/13/374800876a91/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Mac </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>laravel使用passport做接口认证设置过期时间问题</title>
-      <link href="/2021/01/13/d210badcb153/"/>
-      <url>/2021/01/13/d210badcb153/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
-            
-            <tag> passport </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>laravel使用 Passport 服务做 API 认证</title>
-      <link href="/2021/01/13/75ab702e2a8c/"/>
-      <url>/2021/01/13/75ab702e2a8c/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
-            
-            <tag> passport </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Windows10与Ubuntu18.04双系统共存</title>
-      <link href="/2021/01/13/58cdd2f9a75a/"/>
-      <url>/2021/01/13/58cdd2f9a75a/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Ubuntu </tag>
-            
-            <tag> Windows </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>个人对OOP的一些理解</title>
       <link href="/2021/01/13/7e129a4a5356/"/>
       <url>/2021/01/13/7e129a4a5356/</url>
@@ -1075,79 +768,6 @@
         <tags>
             
             <tag> 编程感悟 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>解决ubuntu软件商店无法安装软件提示snap问题</title>
-      <link href="/2021/01/13/f898696ff246/"/>
-      <url>/2021/01/13/f898696ff246/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Ubuntu </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>解决undefined function bcdiv()问题</title>
-      <link href="/2021/01/13/b2430f4b81a1/"/>
-      <url>/2021/01/13/b2430f4b81a1/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Centos7.2更改MySQL登录密码</title>
-      <link href="/2021/01/13/b416aa53f9db/"/>
-      <url>/2021/01/13/b416aa53f9db/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-            <tag> Centos </tag>
             
         </tags>
       
@@ -1204,52 +824,6 @@
     
     
     <entry>
-      <title>Laravel 的 optional 辅助函数</title>
-      <link href="/2021/01/13/59b896fe9b14/"/>
-      <url>/2021/01/13/59b896fe9b14/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>JavaScript复制span标签中的内容到剪切板</title>
-      <link href="/2021/01/13/97aef39291b4/"/>
-      <url>/2021/01/13/97aef39291b4/</url>
-      
-      
-      <categories>
-          
-          <category> 前端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> JavaScript </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Jenkins自动化部署工具的SSH忽略空目录问题</title>
       <link href="/2021/01/13/e25f13030a54/"/>
       <url>/2021/01/13/e25f13030a54/</url>
@@ -1267,123 +841,6 @@
             <tag> deploy </tag>
             
             <tag> Jenkins </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Deepin的安装注意事项</title>
-      <link href="/2021/01/13/7d0c6d651963/"/>
-      <url>/2021/01/13/7d0c6d651963/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-            <tag> Deepin </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Docker容器的理解</title>
-      <link href="/2021/01/13/de976db91cb4/"/>
-      <url>/2021/01/13/de976db91cb4/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Docker </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>vue引入axios</title>
-      <link href="/2021/01/10/71fa6455d108/"/>
-      <url>/2021/01/10/71fa6455d108/</url>
-      
-      
-      <categories>
-          
-          <category> 前端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Vue </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PHP的几种输出方式及区别</title>
-      <link href="/2021/01/10/c7be4896ce43/"/>
-      <url>/2021/01/10/c7be4896ce43/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> PHP </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>谈谈ASP，PHP，JSP的优缺</title>
-      <link href="/2021/01/10/41a5c7dae9cf/"/>
-      <url>/2021/01/10/41a5c7dae9cf/</url>
-      
-      
-      <categories>
-          
-          <category> 其他文章 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 其他 </tag>
             
         </tags>
       
@@ -1455,29 +912,6 @@
         <tags>
             
             <tag> Hyperf </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Laravel 邮件推送系统异常</title>
-      <link href="/2021/01/10/d9dea734ffd3/"/>
-      <url>/2021/01/10/d9dea734ffd3/</url>
-      
-      
-      <categories>
-          
-          <category> 后端技术 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Laravel </tag>
             
         </tags>
       
