@@ -719,9 +719,9 @@
       
         <tags>
             
-            <tag> php-cs-fixer </tag>
-            
             <tag> PhpStorm </tag>
+            
+            <tag> php-cs-fixer </tag>
             
         </tags>
       

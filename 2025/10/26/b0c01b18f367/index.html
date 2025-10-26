@@ -287,11 +287,15 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>近期宽带即将要到期了，于是我就在电信的 APP 上进行续费，在续费时，有看到我当前的套餐是有包含 IPTV 服务的，但是该 IPTV 服务是需要单独购买电信的 IPTV 机顶盒才可以使用的。<br>由此引发了思考，我一定需要买电信的机顶盒么？IPTV 服务是已经在我的包年套餐里的，理论上 IPTV 机顶盒只能算是增值服务，我不买电信的指定机顶盒，IPTV 的服务我也应该享有才对。</p>
+        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>近期宽带即将要到期了，于是我就在电信的 APP 上进行续费，在续费时，有看到我当前的套餐是有包含 IPTV 服务的，但是该 IPTV 服务是需要单独购买电信的 IPTV 机顶盒才可以使用的。</p>
+<p>由此引发了思考，我一定需要买电信的机顶盒么？IPTV 服务是已经在我的包年套餐里的，理论上 IPTV 机顶盒只能算是增值服务，我不买电信的指定机顶盒，IPTV 的服务我也应该享有才对。</p>
 <p>对此我开始查阅大量资料，发现其实电信的 IPTV 是一个单独的内网，光钎入户后，通过光猫进行 VLAN 划分，将该内网划分到了光猫的 IPTV 网口上了，基于此思路，开始了我们今天的折腾。</p>
 <h2 id="二、如何操作"><a href="#二、如何操作" class="headerlink" title="二、如何操作"></a>二、如何操作</h2><h3 id="1-获取IPTV内网"><a href="#1-获取IPTV内网" class="headerlink" title="1. 获取IPTV内网"></a>1. 获取IPTV内网</h3><p>首先我们用一条网线将光猫上的 IPTV 网口和电脑连接起来(这里我使用的是 NAS，我有家用的 NAS，并且有双 2.5G 网口，一个接在了主路由上，另外一个网口是空的，目前我把光猫的 IPTV 网口接在了另外一个空闲网口上)，然后打开终端，使用 SSH 连接到 NAS，查看 IPTV 网口 IP 地址，如下图：<br><img src="https://cdn.findcat.cn/uPic/EytGJW.png"></p>
 <p>我获取到了 IPTV 网口的IP地址为：<code>10.238.143.148</code>，这明显是一个内网 IP 地址，这时候我的 NAS 的网口2应该是进入到了电信的 IPTV 内网。</p>
-<h3 id="2-查找IPTV直播源"><a href="#2-查找IPTV直播源" class="headerlink" title="2. 查找IPTV直播源"></a>2. 查找IPTV直播源</h3><p>进入到 IPTV 的内网后，我们需要找到 IPTV 的直播源，由于我是没有电信机顶盒的，所以我没办法通过抓包的形式获取到 IPTV 的直播源，于是还是开始查阅相关资料。<br>最终发现，电信 IPTV 的直播源其实并不会经常改变，GitHub 上已经有很多现有的项目开源了各个省份的 IPTV 直播源，我查看的是该项目：<a target="_blank" rel="noopener" href="https://github.com/wcb1969/iptv">https://github.com/wcb1969/iptv</a>，<br>可以从刚刚我们获取到的 ip 来看，获取到的是一个 V4 的地址，所以我们打开【海南电信组播.txt】文件查看一下，发现里面是 RTP 协议的直播流，我们拿下一个直播源地址，然后尝试播放试试，看看是否正常播放。<br>这里我是使用 NAS 建了个 Windows 的虚拟机，如果没有这个条件的，可以直接把 IPTV 的网线插到电脑上，然后打开 VLC 尝试播放即可，如图：<br><img src="https://cdn.findcat.cn/uPic/U9nabf.png"></p>
+<h3 id="2-查找IPTV直播源"><a href="#2-查找IPTV直播源" class="headerlink" title="2. 查找IPTV直播源"></a>2. 查找IPTV直播源</h3><p>进入到 IPTV 的内网后，我们需要找到 IPTV 的直播源，由于我是没有电信机顶盒的，所以我没办法通过抓包的形式获取到 IPTV 的直播源，于是还是开始查阅相关资料。</p>
+<p>最终发现，电信 IPTV 的直播源其实并不会经常改变，GitHub 上已经有很多现有的项目开源了各个省份的 IPTV 直播源，我查看的是该项目：<a target="_blank" rel="noopener" href="https://github.com/wcb1969/iptv">https://github.com/wcb1969/iptv</a>，</p>
+<p>可以从刚刚我们获取到的 ip 来看，获取到的是一个 V4 的地址，所以我们打开【海南电信组播.txt】文件查看一下，发现里面是 RTP 协议的直播流，我们拿下一个直播源地址，然后尝试播放试试，看看是否正常播放。</p>
+<p>这里我是使用 NAS 建了个 Windows 的虚拟机，如果没有这个条件的，可以直接把 IPTV 的网线插到电脑上，然后打开 VLC 尝试播放即可，如图：<br><img src="https://cdn.findcat.cn/uPic/U9nabf.png"></p>
 <p>播放成功，说明我们获取的 IPTV 的直播源是正确的，接下来就是如何将该直播源代理到我当前的内网中，让我内网的所有设备都可以访问到该直播源。</p>
 <h3 id="3-代理IPTV直播源"><a href="#3-代理IPTV直播源" class="headerlink" title="3. 代理IPTV直播源"></a>3. 代理IPTV直播源</h3><p>由于 IPTV 的直播源是 RTP 协议的，而 RTP 协议的底层是 UDP 协议，这里我们不能直接将 UDP 协议代理到内网中，因为电信的 IPTV 服务是通过组播 (Multicast) 技术传输视频流的</p>
 <p><strong>什么是组播：意思是这个视频流不是 <code>发给你个人</code> 的，而是通过 <code>239.x.x.x</code> 这样的组播地址发到整个局域网，凡是加入这个 <code>组</code> 的设备都能收到，也就是所谓的【一对多广播】模式。</strong></p>
@@ -469,14 +473,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/ElasticSearch-Dump/">
-            ElasticSearch Dump (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">
+            踩坑日记 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">
-            踩坑日记 (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/ElasticSearch-Dump/">
+            ElasticSearch Dump (1)
           </a>
         </li>
       
@@ -499,18 +503,6 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/">
-            开发小技巧 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-            微服务 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
           <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/">
             前端技术 (1)
           </a>
@@ -523,14 +515,20 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
-            对称加密 (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/">
+            开发小技巧 (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/gRPC/">
-            gRPC (1)
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/%E8%96%85%E7%BE%8A%E6%AF%9B/">
+            薅羊毛 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+            微服务 (1)
           </a>
         </li>
       
@@ -541,8 +539,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/%E8%96%85%E7%BE%8A%E6%AF%9B/">
-            薅羊毛 (1)
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
+            对称加密 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/%E5%BE%AE%E6%9C%8D%E5%8A%A1/gRPC/">
+            gRPC (1)
           </a>
         </li>
       
