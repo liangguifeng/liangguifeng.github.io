@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="一个平淡的开发者~">
+  
+
+  
+    <meta name="keywords" content="PHP,Laravel,Golang,ThinkPHP,个人博客,犯二青年,犯二青年博客">
+  
+
+  
+    <meta name="author" content="犯二青年">
+  
+
+  
+
+  
+
+  <title>分类: 运维技术 | 犯二青年博客</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <!-- 预加载 Bootstrap 字体文件以优化性能 -->
+    <link rel="preload" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff" as="font" type="font/woff" crossorigin>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container">
+  
+    <div class="post-image" style="background-image: url(https://cdn.shenmeyun.com/uPic/海浪jpeg.jpeg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+    <div class="navbar-content">
+        <!-- logo -->
+        <div class="navbar-logo">
+            <a href="/">
+                
+                    犯二青年博客
+                
+            </a>
+        </div>
+        <!-- link -->
+        <div class="navbar-link">
+            <div class="navbar-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul class="navbar-list">
+
+                
+                    <li class="navbar-list-item"><a href="/">首页</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF">前端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF">运维技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0">其他文章</a></li>
+                
+                    <li class="navbar-list-item"><a href="/message">留言板</a></li>
+                
+                    <li class="navbar-list-item"><a href="/links">友链</a></li>
+                
+                    <li class="navbar-list-item"><a href="/about">关于</a></li>
+                
+
+                <!-- 触发模态框 -->
+                <li class="navbar-list-item">
+                    <a class="modal-trigger waves-effect waves-light" href="#" data-toggle="modal"
+                       data-target="#myModal">
+                        <span class="	glyphicon glyphicon-search"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <input type="text" class="form-control" id="local-search-input" placeholder="请输入文章名称">
+            </div>
+            <div class="modal-body">
+                <div id="local-search-result" style="font-size: 18px">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    var inputArea = document.querySelector("#local-search-input");
+    if (inputArea) {
+
+        inputArea.onclick = function() {
+            inputArea.placeholder = '首次搜索，需载入索引文件，请稍候';
+
+            getSearchFile();
+            this.onclick = null
+        }
+        inputArea.onkeydown = function() { if (event.keyCode == 13) return false }
+    }
+
+    var getSearchFile = function() {
+        var path = "../search.xml";
+        // var path = "/search.xml";
+        searchFunc(path, 'local-search-input', 'local-search-result');
+    }
+
+
+    var searchFunc = function(path, search_id, content_id) {
+        'use strict'; //使用严格模式
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function( xmlResponse ) {
+                // 从xml中获取相应的标题等数据
+                var datas = $( "entry", xmlResponse ).map(function() {
+                    return {
+                        title: $( "title", this ).text(),
+                        content: $("content",this).text(),
+                        url: $( "url" , this).text()
+                    };
+                }).get();
+
+                //ID选择器
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+
+                $input.addEventListener('input', function(){
+                    var str='<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // 本地搜索主要部分
+                    datas.forEach(function(data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_url = data.url;
+                        var index_title = -1;
+                        var first_occur = -1;
+
+                        // 只匹配非空文章
+                        if(data_title != '') {
+                            keywords.forEach(function(keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+
+                                if( index_title < 0){
+                                    isMatch = false;
+                                }
+                            });
+                        }
+                        // 返回搜索结果
+                        if (isMatch) {
+                            //结果标签
+                            str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a>";
+
+                            if (first_occur >= 0) {
+                                // 拿出含有搜索字的部分
+                                var start = first_occur - 6;
+                                var end = first_occur + 6;
+                                if(start < 0){
+                                    start = 0;
+                                }
+                                if(start == 0){
+                                    end = 10;
+                                }
+                            }
+                        }
+                    })
+                    $resultContent.innerHTML = str;
+                })
+            }
+        })
+    };
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+  
+    
+    <div class="header-content">
+      <div class="post-text layout-block layout-padding">
+        <h1 class="title-wrap">运维技术</h1>
+        <h2 class="title-sub-wrap">当前分类下共有10篇文章</h2>
+      </div>
+    </div>
+  
+
+  
+  
+
+  
+  
+
+  
+  
+  
+</header>
+
+    <!-- 分类归档 -->
+
+<!-- post list container -->
+<div class="body-container">
+  <div class="content-container layout-block article-list">
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/HF73zh.jpg"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2023/05/30/86c5a793e64d/" itemprop="url">
+                <h2 class="card-text--title">Ubuntu服务器安装Chrome和ChromeDriver</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2023-05-29T16:37:44.000Z" itemprop="datePublished">2023-05-30</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Chrome/">🏷️ Chrome</a></li>
+  
+    <li><a href="/tags/Ubuntu/">🏷️ Ubuntu</a></li>
+  
+    <li><a href="/tags/ChromeDP/">🏷️ ChromeDP</a></li>
+  
+    <li><a href="/tags/ChromeDriver/">🏷️ ChromeDriver</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/7YaxlU.jpg"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2022/05/22/9bd7dc8cf118/" itemprop="url">
+                <h2 class="card-text--title">在Github使用Actions工具部署laravel项目</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2022-05-22T08:01:35.000Z" itemprop="datePublished">2022-05-22</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/github/">🏷️ github</a></li>
+  
+    <li><a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/">🏷️ 运维技巧</a></li>
+  
+    <li><a href="/tags/Laravel/">🏷️ Laravel</a></li>
+  
+    <li><a href="/tags/Github-Actions/">🏷️ Github Actions</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/pY6Dff.jpg"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/12/17/66920a2ed860/" itemprop="url">
+                <h2 class="card-text--title">查看服务器公网IP地址</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-12-17T09:23:43.000Z" itemprop="datePublished">2021-12-17</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/">🏷️ 开发小技巧</a></li>
+  
+    <li><a href="/tags/Linux/">🏷️ Linux</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/fanerblog/20210117035221674.jpeg"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/17/8860fcacbbdb/" itemprop="url">
+                <h2 class="card-text--title">Linux下常用的sed命令</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-16T19:53:02.000Z" itemprop="datePublished">2021-01-17</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Linux/">🏷️ Linux</a></li>
+  
+    <li><a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/">🏷️ 运维技巧</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/fanerblog/20210113231654496.png"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/13/086a36a9c015/" itemprop="url">
+                <h2 class="card-text--title">Supervisor 进程管理的安装和使用</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-13T15:17:22.000Z" itemprop="datePublished">2021-01-13</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/deploy/">🏷️ deploy</a></li>
+  
+    <li><a href="/tags/Linux/">🏷️ Linux</a></li>
+  
+    <li><a href="/tags/supervisord/">🏷️ supervisord</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/fanerblog/20210113230803755.jpeg"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/13/38cd2c1363f4/" itemprop="url">
+                <h2 class="card-text--title">Ubuntu20.04安装（LNMP）Nginx、MySQL8、PHP7.4开发环境</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-13T15:08:56.000Z" itemprop="datePublished">2021-01-13</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/MySQL/">🏷️ MySQL</a></li>
+  
+    <li><a href="/tags/PHP/">🏷️ PHP</a></li>
+  
+    <li><a href="/tags/Git/">🏷️ Git</a></li>
+  
+    <li><a href="/tags/Ubuntu/">🏷️ Ubuntu</a></li>
+  
+    <li><a href="/tags/Nginx/">🏷️ Nginx</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/fanerblog/20210113121952708.png"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/13/e25f13030a54/" itemprop="url">
+                <h2 class="card-text--title">Jenkins自动化部署工具的SSH忽略空目录问题</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-13T04:19:59.000Z" itemprop="datePublished">2021-01-13</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/deploy/">🏷️ deploy</a></li>
+  
+    <li><a href="/tags/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/">🏷️ 踩坑日记</a></li>
+  
+    <li><a href="/tags/Jenkins/">🏷️ Jenkins</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/fanerblog/20210110163051076.jpg"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/10/168de9f92b7f/" itemprop="url">
+                <h2 class="card-text--title">终端curl报错，请求失败处理方案</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-10T08:32:57.000Z" itemprop="datePublished">2021-01-10</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/">🏷️ 开发小技巧</a></li>
+  
+    <li><a href="/tags/Linux/">🏷️ Linux</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/fanerblog/20210110164233591.png"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/10/900070493a59/" itemprop="url">
+                <h2 class="card-text--title">数字证书格式转换：.key和.crt转换成.pem格式</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-10T08:31:27.000Z" itemprop="datePublished">2021-01-10</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/SSL/">🏷️ SSL</a></li>
+  
+    <li><a href="/tags/%E8%AF%81%E4%B9%A6/">🏷️ 证书</a></li>
+  
+    <li><a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/">🏷️ 运维技巧</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+      <div class="article-item layout-padding">
+        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+          
+            <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/MacBookPro-2019/82VsnE.png"></div>
+          
+
+          <div class="card-text">
+            
+              <a href="/2021/01/10/87e7f2bf701a/" itemprop="url">
+                <h2 class="card-text--title">Let&#39;s Encrypt免费泛域名SSL证书申请及使用</h2>
+              </a>
+            
+            <div class="card-text--row">
+              <span>发布于</span>
+              <time  class="" datetime="2021-01-09T16:59:24.000Z" itemprop="datePublished">2021-01-10</time>
+            </div>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">📒 运维技术</a></li>
+  
+</ul>
+            <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Linux/">🏷️ Linux</a></li>
+  
+    <li><a href="/tags/SSL/">🏷️ SSL</a></li>
+  
+    <li><a href="/tags/%E8%AF%81%E4%B9%A6/">🏷️ 证书</a></li>
+  
+</ul>
+          </div>
+        </article>
+      </div>
+    
+  </div>
+</div>
+
+<!-- page container -->
+
+
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+    <div class="footer-container">
+        
+            <div class="social-icons">
+                
+                    
+                
+                    
+                
+                    
+                        <a href="https://weibo.com/u/5794705893" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="icon icon-weibo" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M385.682429 733.696q11.995429-19.456 6.290286-39.424t-25.746286-28.598857q-19.456-7.972571-41.691429-0.585143t-34.304 26.258286q-12.580571 19.456-7.460571 39.131429t24.576 28.891429 42.569143 1.462857 35.693714-27.136zM439.442429 664.576q4.534857-7.460571 1.974857-15.140571t-10.020571-10.605714q-7.972571-2.852571-16.310857 0.292571t-12.288 10.605714q-9.728 17.700571 7.460571 25.746286 7.972571 2.852571 16.603429-0.292571t12.580571-10.605714zM538.843572 725.723429q-25.746286 58.294857-90.258286 85.723429t-128 6.875429q-61.147429-19.456-84.260571-72.265143t3.730286-107.154286q26.843429-53.174857 86.601143-79.433143t120.32-10.825143q63.414857 16.603429 90.550857 68.315429t1.462857 108.836571zM717.165858 634.294857q-5.12-54.857143-50.834286-97.133714t-119.149714-62.317714-156.891429-11.995429q-127.414857 13.165714-211.163429 80.822857t-75.702857 151.113143q5.12 54.857143 50.834286 97.133714t119.149714 62.317714 156.891429 11.995429q127.414857-13.165714 211.163429-80.822857t75.702857-151.113143zM893.147572 636.562286q0 38.838857-21.138286 79.725714t-62.317714 78.262857-96.256 67.145143-129.170286 47.396571-154.550857 17.700571-157.110857-19.163429-137.435429-53.174857-98.011429-86.308571-37.156571-114.029714q0-65.682286 39.716571-139.995429t112.859429-147.456q96.548571-96.548571 195.145143-134.875429t140.873143 4.022857q37.156571 36.571429 11.410286 119.442286-2.267429 7.972571-0.585143 11.410286t5.705143 4.022857 8.265143-0.292571 7.68-1.974857l3.437714-1.170286q79.433143-33.718857 140.580571-33.718857t87.405714 34.889143q25.746286 35.986286 0 101.741714-1.170286 7.460571-2.56 11.410286t2.56 7.168 6.875429 4.315429 9.728 3.437714q32.548571 10.313143 58.88 26.843429t45.714286 46.592 19.456 66.56zM850.871001 279.990857q23.990857 26.843429 31.158857 62.025143t-3.730286 67.145143q-4.534857 13.165714-16.822857 19.456t-25.453714 2.267429q-13.165714-4.534857-19.456-16.822857t-2.267429-25.453714q11.410286-35.986286-13.677714-63.414857t-61.147429-19.968q-13.677714 2.852571-25.746286-4.534857t-14.262857-21.138286q-2.852571-13.677714 4.534857-25.453714t21.138286-14.555429q34.304-7.460571 68.022857 3.145143t57.709714 37.449143zM954.295001 186.88q49.737143 54.857143 64.292571 127.122286t-7.68 138.020571q-5.12 15.433143-19.456 22.820571t-29.696 2.267429-22.820571-19.456-2.852571-29.696q16.018286-46.884571 5.705143-98.304t-45.714286-90.258286q-35.401143-39.424-84.553143-54.564571t-98.889143-4.827429q-16.018286 3.437714-29.696-5.412571t-17.115429-24.868571 5.412571-29.403429 24.868571-16.822857q70.290286-14.848 139.410286 6.582857t118.857143 76.873143z"></path>
+</svg>
+                        </a>
+                    
+                
+                    
+                        <a href="https://github.com/liangguifeng/" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+                        </a>
+                    
+                
+                    
+                        <a href="https://gitee.com/liangguifeng/" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1629290981232" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="551" xmlns:xlink="http://www.w3.org/1999/xlink" ><defs><style type="text/css"></style></defs><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m259.168-568.896h-290.752a25.28 25.28 0 0 0-25.28 25.28l-0.032 63.232c0 13.952 11.296 25.28 25.28 25.28h177.024a25.28 25.28 0 0 1 25.28 25.28v12.64a75.84 75.84 0 0 1-75.84 75.84h-240.224a25.28 25.28 0 0 1-25.28-25.28v-240.192a75.84 75.84 0 0 1 75.84-75.84h353.92a25.28 25.28 0 0 0 25.28-25.28l0.064-63.2a25.312 25.312 0 0 0-25.28-25.312H417.184a189.632 189.632 0 0 0-189.632 189.6v353.952c0 13.952 11.328 25.28 25.28 25.28h372.928a170.656 170.656 0 0 0 170.656-170.656v-145.376a25.28 25.28 0 0 0-25.28-25.28z" p-id="552"></path></svg>
+                        </a>
+                    
+                
+                    
+                
+            </div>
+        
+        <p>&copy; 2026 <a href="/" target="_blank">犯二青年</a></p>
+
+        
+            <p><a href="https://beian.miit.gov.cn" target="_blank">琼ICP备2024048013号-1</a></p>
+        
+
+        <p>Powered by
+            <a href="https://findcat.cn" target="_blank" rel="noopener noreferrer">犯二青年</a> 托管于
+            <a href="https://github.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="GitHub-全球最大同性交友社区">GitHub</a> &amp;
+            <a href="https://qiniu.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="七牛云-国内领先的企业级云服务商">七牛云</a>
+
+            
+            <p>
+                <span>本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                <span class="post-meta-divider">|</span>
+                <span>本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+            </p>
+            
+        <p>
+            <a href="javascript:;" id="theme-light">🌞 浅色</a>
+            <a href="javascript:;" id="theme-dark">🌛 深色</a>
+            <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+        </p>
+
+    </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

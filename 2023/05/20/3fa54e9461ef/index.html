@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="一个平淡的开发者~">
+  
+
+  
+    <meta name="keywords" content="PHP,Laravel,Golang,ThinkPHP,个人博客,犯二青年,犯二青年博客">
+  
+
+  
+    <meta name="author" content="犯二青年">
+  
+
+  
+
+  
+
+  <title>EFK实践(三) - 使用Filebeat采集日志 | 犯二青年博客</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <!-- 预加载 Bootstrap 字体文件以优化性能 -->
+    <link rel="preload" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff" as="font" type="font/woff" crossorigin>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://cdn.shenmeyun.com/uPic/STXuV8.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+    <div class="navbar-content">
+        <!-- logo -->
+        <div class="navbar-logo">
+            <a href="/">
+                
+                    犯二青年博客
+                
+            </a>
+        </div>
+        <!-- link -->
+        <div class="navbar-link">
+            <div class="navbar-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul class="navbar-list">
+
+                
+                    <li class="navbar-list-item"><a href="/">首页</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF">前端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF">运维技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0">其他文章</a></li>
+                
+                    <li class="navbar-list-item"><a href="/message">留言板</a></li>
+                
+                    <li class="navbar-list-item"><a href="/links">友链</a></li>
+                
+                    <li class="navbar-list-item"><a href="/about">关于</a></li>
+                
+
+                <!-- 触发模态框 -->
+                <li class="navbar-list-item">
+                    <a class="modal-trigger waves-effect waves-light" href="#" data-toggle="modal"
+                       data-target="#myModal">
+                        <span class="	glyphicon glyphicon-search"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <input type="text" class="form-control" id="local-search-input" placeholder="请输入文章名称">
+            </div>
+            <div class="modal-body">
+                <div id="local-search-result" style="font-size: 18px">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    var inputArea = document.querySelector("#local-search-input");
+    if (inputArea) {
+
+        inputArea.onclick = function() {
+            inputArea.placeholder = '首次搜索，需载入索引文件，请稍候';
+
+            getSearchFile();
+            this.onclick = null
+        }
+        inputArea.onkeydown = function() { if (event.keyCode == 13) return false }
+    }
+
+    var getSearchFile = function() {
+        var path = "../search.xml";
+        // var path = "/search.xml";
+        searchFunc(path, 'local-search-input', 'local-search-result');
+    }
+
+
+    var searchFunc = function(path, search_id, content_id) {
+        'use strict'; //使用严格模式
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function( xmlResponse ) {
+                // 从xml中获取相应的标题等数据
+                var datas = $( "entry", xmlResponse ).map(function() {
+                    return {
+                        title: $( "title", this ).text(),
+                        content: $("content",this).text(),
+                        url: $( "url" , this).text()
+                    };
+                }).get();
+
+                //ID选择器
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+
+                $input.addEventListener('input', function(){
+                    var str='<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // 本地搜索主要部分
+                    datas.forEach(function(data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_url = data.url;
+                        var index_title = -1;
+                        var first_occur = -1;
+
+                        // 只匹配非空文章
+                        if(data_title != '') {
+                            keywords.forEach(function(keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+
+                                if( index_title < 0){
+                                    isMatch = false;
+                                }
+                            });
+                        }
+                        // 返回搜索结果
+                        if (isMatch) {
+                            //结果标签
+                            str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a>";
+
+                            if (first_occur >= 0) {
+                                // 拿出含有搜索字的部分
+                                var start = first_occur - 6;
+                                var end = first_occur + 6;
+                                if(start < 0){
+                                    start = 0;
+                                }
+                                if(start == 0){
+                                    end = 10;
+                                }
+                            }
+                        }
+                    })
+                    $resultContent.innerHTML = str;
+                })
+            }
+        })
+    };
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">EFK实践(三) - 使用Filebeat采集日志</h1>
+          <h2 class="title-sub-wrap">
+            <strong>犯二青年</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-05-20T04:27:40.000Z" itemprop="datePublished">2023-05-20</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">📒 后端技术</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/ElasticSearch/">🏷️ ElasticSearch</a></li>
+  
+    <li><a href="/tags/Kibana/">🏷️ Kibana</a></li>
+  
+    <li><a href="/tags/Filebeat/">🏷️ Filebeat</a></li>
+  
+    <li><a href="/tags/EFK/">🏷️ EFK</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在第一篇文章中，我们介绍了 ELK 和 EFK 的区别主要是在 Logstash 和 Filebeat 的区别，本篇文章，主要是讲解如何使用 Filebeat 采集部署在 ECS 中的服务日志，废话不多说，开干！</p>
+<p><img src="https://cdn.shenmeyun.com/uPic/m7CUhT.jpg" alt="m7CUhT"></p>
+<h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><h3 id="下载安装-Filebeat"><a href="#下载安装-Filebeat" class="headerlink" title="下载安装 Filebeat"></a>下载安装 Filebeat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Mac OS 安装</span></span><br><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.2-darwin-x86_64.tar.gz</span><br><span class="line">tar xzvf filebeat-8.6.2-darwin-x86_64.tar.gz</span><br><span class="line">cd filebeat-8.6.2-darwin-x86_64/</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Linux DEB 安装</span></span><br><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.2-amd64.deb</span><br><span class="line">sudo dpkg -i filebeat-8.6.2-amd64.deb</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Linux RPM 安装</span></span><br><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.6.2-x86_64.rpm</span><br><span class="line">sudo rpm -vi filebeat-8.6.2-x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<h3 id="编辑-Filebeat-配置文件"><a href="#编辑-Filebeat-配置文件" class="headerlink" title="编辑 Filebeat 配置文件"></a>编辑 Filebeat 配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">filebeat.inputs:</span><br><span class="line">  - type: log</span><br><span class="line">    paths:</span><br><span class="line">      - /var/www/my-api-test/logs/*.log</span><br><span class="line">    fields:</span><br><span class="line">      index: &quot;my-api-test&quot;</span><br><span class="line">    processors:</span><br><span class="line">      - decode_json_fields:</span><br><span class="line">          fields: [&quot;message&quot;]</span><br><span class="line">          target: &quot;&quot;</span><br><span class="line">          overwrite_keys: true</span><br><span class="line"></span><br><span class="line">  - type: log</span><br><span class="line">    paths:</span><br><span class="line">      - /var/www/my-api-prod/logs/*.log</span><br><span class="line">    fields:</span><br><span class="line">      index: &quot;my-api-prod&quot;</span><br><span class="line">    processors:</span><br><span class="line">      - decode_json_fields:</span><br><span class="line">          fields: [&quot;message&quot;]</span><br><span class="line">          target: &quot;&quot;</span><br><span class="line">          overwrite_keys: true</span><br><span class="line"></span><br><span class="line">filebeat.config.modules:</span><br><span class="line">  path: $&#123;path.config&#125;/modules.d/*.yml</span><br><span class="line">  reload.enabled: false</span><br><span class="line"></span><br><span class="line">setup.template.settings:</span><br><span class="line">  index.number_of_shards: 1</span><br><span class="line"></span><br><span class="line">setup.kibana:</span><br><span class="line">  host: &quot;localhost:5601&quot;</span><br><span class="line"></span><br><span class="line">output.elasticsearch:</span><br><span class="line">  hosts: [&quot;localhost:9200&quot;]</span><br><span class="line">  index: &quot;%&#123;[fields.index]&#125;&quot;</span><br><span class="line"></span><br><span class="line">processors:</span><br><span class="line">  - add_host_metadata:</span><br><span class="line">      when.not.contains.tags: forwarded</span><br><span class="line">  - add_cloud_metadata: ~</span><br><span class="line">  - add_docker_metadata: ~</span><br><span class="line">  - add_kubernetes_metadata: ~</span><br><span class="line"></span><br><span class="line">setup.template.name: &quot;my-api-log&quot;</span><br><span class="line">setup.template.pattern: &quot;my-api-*&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li><code>filebeat.inputs</code>：需要采集的日志路径，以及采集到哪个指定的索引</li>
+<li><code>filebeat.config.modules</code>：Filebeat 默认支持的模块，也就是可以直接使用的配置文件，如 Nginx 模块，需要启用可以使用该命令：<code>sudo filebeat modules enable nginx</code></li>
+<li><code>output.elasticsearch</code>：将采集的日志输出到指定的 ElasticSearch 服务集群，可以配置多个地址</li>
+<li><code>setup.kibana</code>：初始化 Kibana 仪表板的配置</li>
+</ul>
+<h3 id="启动-Filebeat"><a href="#启动-Filebeat" class="headerlink" title="启动 Filebeat"></a>启动 Filebeat</h3><ol>
+<li>加载 Kibana 仪表板(如果仪表板已设置，请省略此命令)</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo filebeat setup</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 Filebeat 服务</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service filebeat start</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>观察 Kibana 是否有日志采集上来<br>如下图，则为采集成功，访问顺序为：日志 -&gt; Stream<br><img src="https://cdn.shenmeyun.com/uPic/0KQQSZ.png" alt="0KQQSZ"></li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>到此，我们的日志就已经采集到了 ElasticSearch 中，并且可以在 Kibana 中显示。</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/HF73zh.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/05/30/86c5a793e64d/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Ubuntu服务器安装Chrome和ChromeDriver</h2>
+        </a>
+      
+      <div class="card-text--row">上一篇</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/STXuV8.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/05/20/de1aa23c1e81/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">EFK实践(二) - EFK环境的搭建</h2>
+        </a>
+      
+      <div class="card-text--row">下一篇</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="giscus-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div class="giscus"></div>
+    </div>
+    <script src="https://giscus.app/client.js"
+            data-repo="liangguifeng/liangguifeng.github.io"
+            data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxODA2ODg="
+            data-category="Announcements"
+            data-category-id="DIC_kwDOE2HdEM4C0jdR"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="1"
+            data-input-position="top"
+            data-theme="preferred_color_scheme"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+  
+
+  
+  
+
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://findcat.cn/favicon.ico" class="soft-size--round soft-style--box" alt="犯二青年">
+    
+    
+      <h2>犯二青年</h2>
+    
+    
+      <p>一个平淡的开发者~</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>38</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        4
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        59
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">开始安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85-Filebeat"><span class="toc-number">2.1.</span> <span class="toc-text">下载安装 Filebeat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91-Filebeat-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">编辑 Filebeat 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Filebeat"><span class="toc-number">2.3.</span> <span class="toc-text">启动 Filebeat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">3.</span> <span class="toc-text">结语</span></a></li></ol>
+  </div>
+</section>
+
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>保持好奇，刻意练习，每日精进！</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">
+            后端技术 (24)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">
+            其他文章 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">
+            运维技术 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/">
+            前端技术 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/API%E7%AD%BE%E5%90%8D/" style="font-size: 10px;" class="tags-cloud-0">API签名</a> <a href="/tags/Charles/" style="font-size: 10px;" class="tags-cloud-0">Charles</a> <a href="/tags/Chrome/" style="font-size: 12px;" class="tags-cloud-2">Chrome</a> <a href="/tags/ChromeDP/" style="font-size: 10px;" class="tags-cloud-0">ChromeDP</a> <a href="/tags/ChromeDriver/" style="font-size: 10px;" class="tags-cloud-0">ChromeDriver</a> <a href="/tags/Docker-Desktop/" style="font-size: 12px;" class="tags-cloud-2">Docker Desktop</a> <a href="/tags/EFK/" style="font-size: 14px;" class="tags-cloud-4">EFK</a> <a href="/tags/ElasticSearch/" style="font-size: 16px;" class="tags-cloud-6">ElasticSearch</a> <a href="/tags/ElasticSearch-Dump/" style="font-size: 10px;" class="tags-cloud-0">ElasticSearch Dump</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;" class="tags-cloud-0">Elasticsearch</a> <a href="/tags/Filebeat/" style="font-size: 14px;" class="tags-cloud-4">Filebeat</a> <a href="/tags/Git/" style="font-size: 12px;" class="tags-cloud-2">Git</a> <a href="/tags/Github-Actions/" style="font-size: 10px;" class="tags-cloud-0">Github Actions</a> <a href="/tags/Golang/" style="font-size: 12px;" class="tags-cloud-2">Golang</a> <a href="/tags/Hyperf/" style="font-size: 12px;" class="tags-cloud-2">Hyperf</a> <a href="/tags/IPTV/" style="font-size: 10px;" class="tags-cloud-0">IPTV</a> <a href="/tags/JWT/" style="font-size: 10px;" class="tags-cloud-0">JWT</a> <a href="/tags/Jenkins/" style="font-size: 10px;" class="tags-cloud-0">Jenkins</a> <a href="/tags/Kibana/" style="font-size: 14px;" class="tags-cloud-4">Kibana</a> <a href="/tags/Laravel/" style="font-size: 12px;" class="tags-cloud-2">Laravel</a> <a href="/tags/Linux/" style="font-size: 18px;" class="tags-cloud-8">Linux</a> <a href="/tags/MySQL/" style="font-size: 14px;" class="tags-cloud-4">MySQL</a> <a href="/tags/Nginx/" style="font-size: 10px;" class="tags-cloud-0">Nginx</a> <a href="/tags/OOP/" style="font-size: 10px;" class="tags-cloud-0">OOP</a> <a href="/tags/PHP/" style="font-size: 14px;" class="tags-cloud-4">PHP</a> <a href="/tags/PhpStorm/" style="font-size: 12px;" class="tags-cloud-2">PhpStorm</a> <a href="/tags/SSL/" style="font-size: 12px;" class="tags-cloud-2">SSL</a> <a href="/tags/Swoole/" style="font-size: 14px;" class="tags-cloud-4">Swoole</a> <a href="/tags/UDP/" style="font-size: 10px;" class="tags-cloud-0">UDP</a> <a href="/tags/Ubuntu/" style="font-size: 12px;" class="tags-cloud-2">Ubuntu</a> <a href="/tags/Windows/" style="font-size: 10px;" class="tags-cloud-0">Windows</a> <a href="/tags/Xdebug/" style="font-size: 10px;" class="tags-cloud-0">Xdebug</a> <a href="/tags/deploy/" style="font-size: 12px;" class="tags-cloud-2">deploy</a> <a href="/tags/gRPC/" style="font-size: 12px;" class="tags-cloud-2">gRPC</a> <a href="/tags/git/" style="font-size: 12px;" class="tags-cloud-2">git</a> <a href="/tags/github/" style="font-size: 10px;" class="tags-cloud-0">github</a> <a href="/tags/hyperf/" style="font-size: 10px;" class="tags-cloud-0">hyperf</a> <a href="/tags/k8s/" style="font-size: 12px;" class="tags-cloud-2">k8s</a> <a href="/tags/k8s%E6%95%99%E7%A8%8B%E7%B3%BB%E5%88%97/" style="font-size: 12px;" class="tags-cloud-2">k8s教程系列</a> <a href="/tags/mysqldump/" style="font-size: 12px;" class="tags-cloud-2">mysqldump</a> <a href="/tags/oh-my-zsh/" style="font-size: 10px;" class="tags-cloud-0">oh-my-zsh</a> <a href="/tags/php-cs-fixer/" style="font-size: 10px;" class="tags-cloud-0">php-cs-fixer</a> <a href="/tags/sql/" style="font-size: 10px;" class="tags-cloud-0">sql</a> <a href="/tags/supervisord/" style="font-size: 10px;" class="tags-cloud-0">supervisord</a> <a href="/tags/web%E9%80%86%E5%90%91/" style="font-size: 10px;" class="tags-cloud-0">web逆向</a> <a href="/tags/zsh/" style="font-size: 10px;" class="tags-cloud-0">zsh</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;" class="tags-cloud-0">并发编程</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 20px;" class="tags-cloud-10">开发小技巧</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 12px;" class="tags-cloud-2">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD/" style="font-size: 10px;" class="tags-cloud-0">数据库备份</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据库迁移</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据迁移</a> <a href="/tags/%E6%B5%B7%E5%8D%97%E7%94%B5%E4%BF%A1/" style="font-size: 10px;" class="tags-cloud-0">海南电信</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 12px;" class="tags-cloud-2">生活小技巧</a> <a href="/tags/%E7%BC%96%E7%A8%8B%E6%84%9F%E6%82%9F/" style="font-size: 10px;" class="tags-cloud-0">编程感悟</a> <a href="/tags/%E8%96%85%E7%BE%8A%E6%AF%9B/" style="font-size: 10px;" class="tags-cloud-0">薅羊毛</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 12px;" class="tags-cloud-2">证书</a> <a href="/tags/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" style="font-size: 12px;" class="tags-cloud-2">踩坑日记</a> <a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/" style="font-size: 14px;" class="tags-cloud-4">运维技巧</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+    <div class="footer-container">
+        
+            <div class="social-icons">
+                
+                    
+                
+                    
+                
+                    
+                        <a href="https://weibo.com/u/5794705893" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="icon icon-weibo" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M385.682429 733.696q11.995429-19.456 6.290286-39.424t-25.746286-28.598857q-19.456-7.972571-41.691429-0.585143t-34.304 26.258286q-12.580571 19.456-7.460571 39.131429t24.576 28.891429 42.569143 1.462857 35.693714-27.136zM439.442429 664.576q4.534857-7.460571 1.974857-15.140571t-10.020571-10.605714q-7.972571-2.852571-16.310857 0.292571t-12.288 10.605714q-9.728 17.700571 7.460571 25.746286 7.972571 2.852571 16.603429-0.292571t12.580571-10.605714zM538.843572 725.723429q-25.746286 58.294857-90.258286 85.723429t-128 6.875429q-61.147429-19.456-84.260571-72.265143t3.730286-107.154286q26.843429-53.174857 86.601143-79.433143t120.32-10.825143q63.414857 16.603429 90.550857 68.315429t1.462857 108.836571zM717.165858 634.294857q-5.12-54.857143-50.834286-97.133714t-119.149714-62.317714-156.891429-11.995429q-127.414857 13.165714-211.163429 80.822857t-75.702857 151.113143q5.12 54.857143 50.834286 97.133714t119.149714 62.317714 156.891429 11.995429q127.414857-13.165714 211.163429-80.822857t75.702857-151.113143zM893.147572 636.562286q0 38.838857-21.138286 79.725714t-62.317714 78.262857-96.256 67.145143-129.170286 47.396571-154.550857 17.700571-157.110857-19.163429-137.435429-53.174857-98.011429-86.308571-37.156571-114.029714q0-65.682286 39.716571-139.995429t112.859429-147.456q96.548571-96.548571 195.145143-134.875429t140.873143 4.022857q37.156571 36.571429 11.410286 119.442286-2.267429 7.972571-0.585143 11.410286t5.705143 4.022857 8.265143-0.292571 7.68-1.974857l3.437714-1.170286q79.433143-33.718857 140.580571-33.718857t87.405714 34.889143q25.746286 35.986286 0 101.741714-1.170286 7.460571-2.56 11.410286t2.56 7.168 6.875429 4.315429 9.728 3.437714q32.548571 10.313143 58.88 26.843429t45.714286 46.592 19.456 66.56zM850.871001 279.990857q23.990857 26.843429 31.158857 62.025143t-3.730286 67.145143q-4.534857 13.165714-16.822857 19.456t-25.453714 2.267429q-13.165714-4.534857-19.456-16.822857t-2.267429-25.453714q11.410286-35.986286-13.677714-63.414857t-61.147429-19.968q-13.677714 2.852571-25.746286-4.534857t-14.262857-21.138286q-2.852571-13.677714 4.534857-25.453714t21.138286-14.555429q34.304-7.460571 68.022857 3.145143t57.709714 37.449143zM954.295001 186.88q49.737143 54.857143 64.292571 127.122286t-7.68 138.020571q-5.12 15.433143-19.456 22.820571t-29.696 2.267429-22.820571-19.456-2.852571-29.696q16.018286-46.884571 5.705143-98.304t-45.714286-90.258286q-35.401143-39.424-84.553143-54.564571t-98.889143-4.827429q-16.018286 3.437714-29.696-5.412571t-17.115429-24.868571 5.412571-29.403429 24.868571-16.822857q70.290286-14.848 139.410286 6.582857t118.857143 76.873143z"></path>
+</svg>
+                        </a>
+                    
+                
+                    
+                        <a href="https://github.com/liangguifeng/" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+                        </a>
+                    
+                
+                    
+                        <a href="https://gitee.com/liangguifeng/" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1629290981232" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="551" xmlns:xlink="http://www.w3.org/1999/xlink" ><defs><style type="text/css"></style></defs><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m259.168-568.896h-290.752a25.28 25.28 0 0 0-25.28 25.28l-0.032 63.232c0 13.952 11.296 25.28 25.28 25.28h177.024a25.28 25.28 0 0 1 25.28 25.28v12.64a75.84 75.84 0 0 1-75.84 75.84h-240.224a25.28 25.28 0 0 1-25.28-25.28v-240.192a75.84 75.84 0 0 1 75.84-75.84h353.92a25.28 25.28 0 0 0 25.28-25.28l0.064-63.2a25.312 25.312 0 0 0-25.28-25.312H417.184a189.632 189.632 0 0 0-189.632 189.6v353.952c0 13.952 11.328 25.28 25.28 25.28h372.928a170.656 170.656 0 0 0 170.656-170.656v-145.376a25.28 25.28 0 0 0-25.28-25.28z" p-id="552"></path></svg>
+                        </a>
+                    
+                
+                    
+                
+            </div>
+        
+        <p>&copy; 2026 <a href="/" target="_blank">犯二青年</a></p>
+
+        
+            <p><a href="https://beian.miit.gov.cn" target="_blank">琼ICP备2024048013号-1</a></p>
+        
+
+        <p>Powered by
+            <a href="https://findcat.cn" target="_blank" rel="noopener noreferrer">犯二青年</a> 托管于
+            <a href="https://github.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="GitHub-全球最大同性交友社区">GitHub</a> &amp;
+            <a href="https://qiniu.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="七牛云-国内领先的企业级云服务商">七牛云</a>
+
+            
+            <p>
+                <span>本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                <span class="post-meta-divider">|</span>
+                <span>本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+            </p>
+            
+        <p>
+            <a href="javascript:;" id="theme-light">🌞 浅色</a>
+            <a href="javascript:;" id="theme-dark">🌛 深色</a>
+            <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+        </p>
+
+    </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

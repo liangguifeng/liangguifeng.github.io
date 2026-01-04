@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.2">
+
+  
+    <meta name="description" content="一个平淡的开发者~">
+  
+
+  
+    <meta name="keywords" content="PHP,Laravel,Golang,ThinkPHP,个人博客,犯二青年,犯二青年博客">
+  
+
+  
+    <meta name="author" content="犯二青年">
+  
+
+  
+
+  
+
+  <title>浅入浅出微服务 | 犯二青年博客</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <!-- 预加载 Bootstrap 字体文件以优化性能 -->
+    <link rel="preload" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff" as="font" type="font/woff" crossorigin>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://cdn.shenmeyun.com/uPic/weifuwu.png)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+    <div class="navbar-content">
+        <!-- logo -->
+        <div class="navbar-logo">
+            <a href="/">
+                
+                    犯二青年博客
+                
+            </a>
+        </div>
+        <!-- link -->
+        <div class="navbar-link">
+            <div class="navbar-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul class="navbar-list">
+
+                
+                    <li class="navbar-list-item"><a href="/">首页</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF">后端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF">前端技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF">运维技术</a></li>
+                
+                    <li class="navbar-list-item"><a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0">其他文章</a></li>
+                
+                    <li class="navbar-list-item"><a href="/message">留言板</a></li>
+                
+                    <li class="navbar-list-item"><a href="/links">友链</a></li>
+                
+                    <li class="navbar-list-item"><a href="/about">关于</a></li>
+                
+
+                <!-- 触发模态框 -->
+                <li class="navbar-list-item">
+                    <a class="modal-trigger waves-effect waves-light" href="#" data-toggle="modal"
+                       data-target="#myModal">
+                        <span class="	glyphicon glyphicon-search"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <input type="text" class="form-control" id="local-search-input" placeholder="请输入文章名称">
+            </div>
+            <div class="modal-body">
+                <div id="local-search-result" style="font-size: 18px">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    var inputArea = document.querySelector("#local-search-input");
+    if (inputArea) {
+
+        inputArea.onclick = function() {
+            inputArea.placeholder = '首次搜索，需载入索引文件，请稍候';
+
+            getSearchFile();
+            this.onclick = null
+        }
+        inputArea.onkeydown = function() { if (event.keyCode == 13) return false }
+    }
+
+    var getSearchFile = function() {
+        var path = "../search.xml";
+        // var path = "/search.xml";
+        searchFunc(path, 'local-search-input', 'local-search-result');
+    }
+
+
+    var searchFunc = function(path, search_id, content_id) {
+        'use strict'; //使用严格模式
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function( xmlResponse ) {
+                // 从xml中获取相应的标题等数据
+                var datas = $( "entry", xmlResponse ).map(function() {
+                    return {
+                        title: $( "title", this ).text(),
+                        content: $("content",this).text(),
+                        url: $( "url" , this).text()
+                    };
+                }).get();
+
+                //ID选择器
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+
+                $input.addEventListener('input', function(){
+                    var str='<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // 本地搜索主要部分
+                    datas.forEach(function(data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_url = data.url;
+                        var index_title = -1;
+                        var first_occur = -1;
+
+                        // 只匹配非空文章
+                        if(data_title != '') {
+                            keywords.forEach(function(keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+
+                                if( index_title < 0){
+                                    isMatch = false;
+                                }
+                            });
+                        }
+                        // 返回搜索结果
+                        if (isMatch) {
+                            //结果标签
+                            str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ "> " + data_title +"</a>";
+
+                            if (first_occur >= 0) {
+                                // 拿出含有搜索字的部分
+                                var start = first_occur - 6;
+                                var end = first_occur + 6;
+                                if(start < 0){
+                                    start = 0;
+                                }
+                                if(start == 0){
+                                    end = 10;
+                                }
+                            }
+                        }
+                    })
+                    $resultContent.innerHTML = str;
+                })
+            }
+        })
+    };
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">浅入浅出微服务</h1>
+          <h2 class="title-sub-wrap">
+            <strong>犯二青年</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-04-24T09:10:34.000Z" itemprop="datePublished">2024-04-24</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">📒 后端技术</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/gRPC/">🏷️ gRPC</a></li>
+  
+    <li><a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">🏷️ 微服务</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h2 id="一、什么是微服务？"><a href="#一、什么是微服务？" class="headerlink" title="一、什么是微服务？"></a>一、什么是微服务？</h2><p>微服务是一种软件架构风格，软件架构风格大家常听到的比如说【事件驱动架构】、【客户端-服务器架构】、【分层架构】。对于微服务来说，每个服务都围绕着特定的业务功能进行设计，这些服务可以独立部署、扩展、管理。而这些服务之间通常使用一些轻量级的通信机制，如 HTTP，RPC、消息队列等等进行服务之间的通讯。</p>
+<p>微服务架构的设计目标是将大型复杂的应用程序拆分为更小、更易于理解和开发的部分，从而提高灵活性、可维护性和可扩展性。</p>
+<p><img src="https://cdn.shenmeyun.com/uPic/weifuwu.png" alt="image(5376)"></p>
+<h2 id="二、为什么要做微服务？"><a href="#二、为什么要做微服务？" class="headerlink" title="二、为什么要做微服务？"></a>二、为什么要做微服务？</h2><p>其实对于微服务和大单体两种架构的总会引起不少争论。</p>
+<ul>
+<li>有的人说大单体好，可以节省服务间的通讯消耗，可以降低理解成本等等。</li>
+<li>有的人说微服务好，可以弹性伸缩，技术的多样性，独立部署等等。</li>
+</ul>
+<p>总的来说，微服务架构通过提高灵活性、可维护性、可扩展性和可靠性，帮助我们更快的完成高质量的需求开发，帮助我们减少业务上的高耦合，使我们在面临线上致命 bug 时，不至于产生雪崩状况等等。</p>
+<p><img src="https://cdn.shenmeyun.com/uPic/7000.png" alt="img"></p>
+<h2 id="三、如何在微服务和大单体中进行抉择？"><a href="#三、如何在微服务和大单体中进行抉择？" class="headerlink" title="三、如何在微服务和大单体中进行抉择？"></a>三、如何在微服务和大单体中进行抉择？</h2><p>我认为有以下几点可以作为选择微服务的考量：</p>
+<ol>
+<li><strong>复杂性和规模</strong>：当程序变得越来越复杂、规模越来越大时，微服务架构会更加适合。微服务允许将程序拆分为多个小型、独立的服务，每个服务专注于特定的业务功能，从而降低系统的复杂性。</li>
+<li><strong>团队规模和组织结构</strong>：当团队规模较大或者需要多个团队同时开发和维护应用程序时，微服务架构可以提供更好的团队自治和独立部署的能力，从而加快开发速度和灵活性。</li>
+<li><strong>技术多样性</strong>：当团队希望使用不同的技术栈和编程语言来开发不同的服务时，微服务架构可以提供更大的灵活性，每个服务可以选择最适合其需求的技术。</li>
+<li><strong>弹性和可扩展性</strong>：当需要快速扩展和部署新功能时，微服务架构可以提供更好的弹性和可扩展性，每个服务可以独立进行水平扩展，而不影响整个应用程序。</li>
+</ol>
+<p>在不满足上面这些考量时，肯定还是大单体来得快，减少了通讯损耗，不是所有的服务架构都适合使用微服务去做。</p>
+<p><img src="https://cdn.shenmeyun.com/uPic/gaoxiao.jpeg" alt="gaoxiao"></p>
+<h2 id="四、微服务的通讯方式"><a href="#四、微服务的通讯方式" class="headerlink" title="四、微服务的通讯方式"></a>四、微服务的通讯方式</h2><ol>
+<li><strong>HTTP</strong> ：使用HTTP协议和RESTful API进行通信是微服务架构中最常见的方式之一。每个微服务暴露自己的API，其他微服务可以通过HTTP请求来调用这些API，完成数据交换，这种当时学习成本最低，应用也很广泛，但是就是常规的HTTP1.1交互太慢，影响整体服务的速度，如果量不大，还好，如果请求并发较大，这个是致命的。</li>
+<li><strong>RPC</strong>：RPC的意思是【<strong>远程过程调用</strong>】，是一种高效的通信方式，它允许一个微服务调用另一个微服务的方法，就像调用本地方法一样。RPC框架如gRPC、Thrift等可以我们帮助实现跨语言的远程调用，但是RPC本身并不是一种规范，而是一种通用的概念和编程模型。它有多种实现方式和协议，如gRPC使用的就是HTTP作为传输协议，但是RPC不仅限于HTTP协议，还可以使用TCP、UDP等等底层协议进行实现。</li>
+<li><strong>消息队列</strong>：使用消息队列进行异步通信是一种常见的微服务通信方式。每个微服务可以向消息队列发送消息，其他微服务可以订阅并接收这些消息。这种方式解耦了微服务之间的通信，提高了系统的弹性和可伸缩性。常见的消息队列包括RabbitMQ、Kafka和RocketMQ等。</li>
+<li><strong>事件驱动</strong>：事件驱动架构通过发布和订阅事件的方式实现微服务之间的通信。当某个微服务发生某个事件时，它会发布该事件，其他订阅了该事件的微服务将会收到通知并做出相应的处理。这种方式可以实现松耦合和异步通信，适用于需要实时处理和反应的场景。</li>
+</ol>
+<h2 id="五、总结一下"><a href="#五、总结一下" class="headerlink" title="五、总结一下"></a>五、总结一下</h2><p>一般提到微服务都离不开DevOps、Docker和k8s，理解 <strong>微服务架构是核心，devops、docker和k8s是工具，是手段。</strong></p>
+<p>微服务对我们的思考，更多的是思维上的转变。上面说了这么多，其实微服务并不难，对于微服务架构： <strong>技术上不是问题，意识比工具重要。</strong></p>
+<p>关于微服务的几点设计出发点：</p>
+<ol>
+<li>后台服务贯彻Single Responsibility Principle（单一职责原则）</li>
+<li>应用程序的核心是业务逻辑，按照业务或客户需求组织资源（这是最难的）</li>
+<li>DevOps（持续集成、持续部署、持续交付）</li>
+<li>Docker、Kubernetes （弹性工具）</li>
+</ol>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/RE9Uyg.png"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/10/14/a961d2ad5849/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">使用mysqldump迁移数据库</h2>
+        </a>
+      
+      <div class="card-text--row">上一篇</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://cdn.shenmeyun.com/uPic/eaxlcw.png"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/11/10/ee547b5346c5/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">hyperf使用Xdebug调试断点</h2>
+        </a>
+      
+      <div class="card-text--row">下一篇</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="giscus-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div class="giscus"></div>
+    </div>
+    <script src="https://giscus.app/client.js"
+            data-repo="liangguifeng/liangguifeng.github.io"
+            data-repo-id="MDEwOlJlcG9zaXRvcnkzMjUxODA2ODg="
+            data-category="Announcements"
+            data-category-id="DIC_kwDOE2HdEM4C0jdR"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="1"
+            data-input-position="top"
+            data-theme="preferred_color_scheme"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+  
+
+  
+  
+
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://findcat.cn/favicon.ico" class="soft-size--round soft-style--box" alt="犯二青年">
+    
+    
+      <h2>犯二青年</h2>
+    
+    
+      <p>一个平淡的开发者~</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>38</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        4
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        59
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、什么是微服务？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">二、为什么要做微服务？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%A6%82%E4%BD%95%E5%9C%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%92%8C%E5%A4%A7%E5%8D%95%E4%BD%93%E4%B8%AD%E8%BF%9B%E8%A1%8C%E6%8A%89%E6%8B%A9%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">三、如何在微服务和大单体中进行抉择？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%80%9A%E8%AE%AF%E6%96%B9%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">四、微服务的通讯方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="toc-number">5.</span> <span class="toc-text">五、总结一下</span></a></li></ol>
+  </div>
+</section>
+
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>保持好奇，刻意练习，每日精进！</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF/">
+            后端技术 (24)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">
+            其他文章 (3)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">
+            运维技术 (10)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/">
+            前端技术 (1)
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/API%E7%AD%BE%E5%90%8D/" style="font-size: 10px;" class="tags-cloud-0">API签名</a> <a href="/tags/Charles/" style="font-size: 10px;" class="tags-cloud-0">Charles</a> <a href="/tags/Chrome/" style="font-size: 12px;" class="tags-cloud-2">Chrome</a> <a href="/tags/ChromeDP/" style="font-size: 10px;" class="tags-cloud-0">ChromeDP</a> <a href="/tags/ChromeDriver/" style="font-size: 10px;" class="tags-cloud-0">ChromeDriver</a> <a href="/tags/Docker-Desktop/" style="font-size: 12px;" class="tags-cloud-2">Docker Desktop</a> <a href="/tags/EFK/" style="font-size: 14px;" class="tags-cloud-4">EFK</a> <a href="/tags/ElasticSearch/" style="font-size: 16px;" class="tags-cloud-6">ElasticSearch</a> <a href="/tags/ElasticSearch-Dump/" style="font-size: 10px;" class="tags-cloud-0">ElasticSearch Dump</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;" class="tags-cloud-0">Elasticsearch</a> <a href="/tags/Filebeat/" style="font-size: 14px;" class="tags-cloud-4">Filebeat</a> <a href="/tags/Git/" style="font-size: 12px;" class="tags-cloud-2">Git</a> <a href="/tags/Github-Actions/" style="font-size: 10px;" class="tags-cloud-0">Github Actions</a> <a href="/tags/Golang/" style="font-size: 12px;" class="tags-cloud-2">Golang</a> <a href="/tags/Hyperf/" style="font-size: 12px;" class="tags-cloud-2">Hyperf</a> <a href="/tags/IPTV/" style="font-size: 10px;" class="tags-cloud-0">IPTV</a> <a href="/tags/JWT/" style="font-size: 10px;" class="tags-cloud-0">JWT</a> <a href="/tags/Jenkins/" style="font-size: 10px;" class="tags-cloud-0">Jenkins</a> <a href="/tags/Kibana/" style="font-size: 14px;" class="tags-cloud-4">Kibana</a> <a href="/tags/Laravel/" style="font-size: 12px;" class="tags-cloud-2">Laravel</a> <a href="/tags/Linux/" style="font-size: 18px;" class="tags-cloud-8">Linux</a> <a href="/tags/MySQL/" style="font-size: 14px;" class="tags-cloud-4">MySQL</a> <a href="/tags/Nginx/" style="font-size: 10px;" class="tags-cloud-0">Nginx</a> <a href="/tags/OOP/" style="font-size: 10px;" class="tags-cloud-0">OOP</a> <a href="/tags/PHP/" style="font-size: 14px;" class="tags-cloud-4">PHP</a> <a href="/tags/PhpStorm/" style="font-size: 12px;" class="tags-cloud-2">PhpStorm</a> <a href="/tags/SSL/" style="font-size: 12px;" class="tags-cloud-2">SSL</a> <a href="/tags/Swoole/" style="font-size: 14px;" class="tags-cloud-4">Swoole</a> <a href="/tags/UDP/" style="font-size: 10px;" class="tags-cloud-0">UDP</a> <a href="/tags/Ubuntu/" style="font-size: 12px;" class="tags-cloud-2">Ubuntu</a> <a href="/tags/Windows/" style="font-size: 10px;" class="tags-cloud-0">Windows</a> <a href="/tags/Xdebug/" style="font-size: 10px;" class="tags-cloud-0">Xdebug</a> <a href="/tags/deploy/" style="font-size: 12px;" class="tags-cloud-2">deploy</a> <a href="/tags/gRPC/" style="font-size: 12px;" class="tags-cloud-2">gRPC</a> <a href="/tags/git/" style="font-size: 12px;" class="tags-cloud-2">git</a> <a href="/tags/github/" style="font-size: 10px;" class="tags-cloud-0">github</a> <a href="/tags/hyperf/" style="font-size: 10px;" class="tags-cloud-0">hyperf</a> <a href="/tags/k8s/" style="font-size: 12px;" class="tags-cloud-2">k8s</a> <a href="/tags/k8s%E6%95%99%E7%A8%8B%E7%B3%BB%E5%88%97/" style="font-size: 12px;" class="tags-cloud-2">k8s教程系列</a> <a href="/tags/mysqldump/" style="font-size: 12px;" class="tags-cloud-2">mysqldump</a> <a href="/tags/oh-my-zsh/" style="font-size: 10px;" class="tags-cloud-0">oh-my-zsh</a> <a href="/tags/php-cs-fixer/" style="font-size: 10px;" class="tags-cloud-0">php-cs-fixer</a> <a href="/tags/sql/" style="font-size: 10px;" class="tags-cloud-0">sql</a> <a href="/tags/supervisord/" style="font-size: 10px;" class="tags-cloud-0">supervisord</a> <a href="/tags/web%E9%80%86%E5%90%91/" style="font-size: 10px;" class="tags-cloud-0">web逆向</a> <a href="/tags/zsh/" style="font-size: 10px;" class="tags-cloud-0">zsh</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;" class="tags-cloud-0">并发编程</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 20px;" class="tags-cloud-10">开发小技巧</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 12px;" class="tags-cloud-2">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD/" style="font-size: 10px;" class="tags-cloud-0">数据库备份</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据库迁移</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据迁移</a> <a href="/tags/%E6%B5%B7%E5%8D%97%E7%94%B5%E4%BF%A1/" style="font-size: 10px;" class="tags-cloud-0">海南电信</a> <a href="/tags/%E7%94%9F%E6%B4%BB%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 12px;" class="tags-cloud-2">生活小技巧</a> <a href="/tags/%E7%BC%96%E7%A8%8B%E6%84%9F%E6%82%9F/" style="font-size: 10px;" class="tags-cloud-0">编程感悟</a> <a href="/tags/%E8%96%85%E7%BE%8A%E6%AF%9B/" style="font-size: 10px;" class="tags-cloud-0">薅羊毛</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 12px;" class="tags-cloud-2">证书</a> <a href="/tags/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" style="font-size: 12px;" class="tags-cloud-2">踩坑日记</a> <a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/" style="font-size: 14px;" class="tags-cloud-4">运维技巧</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+    <div class="footer-container">
+        
+            <div class="social-icons">
+                
+                    
+                
+                    
+                
+                    
+                        <a href="https://weibo.com/u/5794705893" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="icon icon-weibo" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M385.682429 733.696q11.995429-19.456 6.290286-39.424t-25.746286-28.598857q-19.456-7.972571-41.691429-0.585143t-34.304 26.258286q-12.580571 19.456-7.460571 39.131429t24.576 28.891429 42.569143 1.462857 35.693714-27.136zM439.442429 664.576q4.534857-7.460571 1.974857-15.140571t-10.020571-10.605714q-7.972571-2.852571-16.310857 0.292571t-12.288 10.605714q-9.728 17.700571 7.460571 25.746286 7.972571 2.852571 16.603429-0.292571t12.580571-10.605714zM538.843572 725.723429q-25.746286 58.294857-90.258286 85.723429t-128 6.875429q-61.147429-19.456-84.260571-72.265143t3.730286-107.154286q26.843429-53.174857 86.601143-79.433143t120.32-10.825143q63.414857 16.603429 90.550857 68.315429t1.462857 108.836571zM717.165858 634.294857q-5.12-54.857143-50.834286-97.133714t-119.149714-62.317714-156.891429-11.995429q-127.414857 13.165714-211.163429 80.822857t-75.702857 151.113143q5.12 54.857143 50.834286 97.133714t119.149714 62.317714 156.891429 11.995429q127.414857-13.165714 211.163429-80.822857t75.702857-151.113143zM893.147572 636.562286q0 38.838857-21.138286 79.725714t-62.317714 78.262857-96.256 67.145143-129.170286 47.396571-154.550857 17.700571-157.110857-19.163429-137.435429-53.174857-98.011429-86.308571-37.156571-114.029714q0-65.682286 39.716571-139.995429t112.859429-147.456q96.548571-96.548571 195.145143-134.875429t140.873143 4.022857q37.156571 36.571429 11.410286 119.442286-2.267429 7.972571-0.585143 11.410286t5.705143 4.022857 8.265143-0.292571 7.68-1.974857l3.437714-1.170286q79.433143-33.718857 140.580571-33.718857t87.405714 34.889143q25.746286 35.986286 0 101.741714-1.170286 7.460571-2.56 11.410286t2.56 7.168 6.875429 4.315429 9.728 3.437714q32.548571 10.313143 58.88 26.843429t45.714286 46.592 19.456 66.56zM850.871001 279.990857q23.990857 26.843429 31.158857 62.025143t-3.730286 67.145143q-4.534857 13.165714-16.822857 19.456t-25.453714 2.267429q-13.165714-4.534857-19.456-16.822857t-2.267429-25.453714q11.410286-35.986286-13.677714-63.414857t-61.147429-19.968q-13.677714 2.852571-25.746286-4.534857t-14.262857-21.138286q-2.852571-13.677714 4.534857-25.453714t21.138286-14.555429q34.304-7.460571 68.022857 3.145143t57.709714 37.449143zM954.295001 186.88q49.737143 54.857143 64.292571 127.122286t-7.68 138.020571q-5.12 15.433143-19.456 22.820571t-29.696 2.267429-22.820571-19.456-2.852571-29.696q16.018286-46.884571 5.705143-98.304t-45.714286-90.258286q-35.401143-39.424-84.553143-54.564571t-98.889143-4.827429q-16.018286 3.437714-29.696-5.412571t-17.115429-24.868571 5.412571-29.403429 24.868571-16.822857q70.290286-14.848 139.410286 6.582857t118.857143 76.873143z"></path>
+</svg>
+                        </a>
+                    
+                
+                    
+                        <a href="https://github.com/liangguifeng/" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+                        </a>
+                    
+                
+                    
+                        <a href="https://gitee.com/liangguifeng/" class="soft-size--primary soft-style--box"
+                           target="_blank" rel="noopener noreferrer">
+                            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1629290981232" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="551" xmlns:xlink="http://www.w3.org/1999/xlink" ><defs><style type="text/css"></style></defs><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m259.168-568.896h-290.752a25.28 25.28 0 0 0-25.28 25.28l-0.032 63.232c0 13.952 11.296 25.28 25.28 25.28h177.024a25.28 25.28 0 0 1 25.28 25.28v12.64a75.84 75.84 0 0 1-75.84 75.84h-240.224a25.28 25.28 0 0 1-25.28-25.28v-240.192a75.84 75.84 0 0 1 75.84-75.84h353.92a25.28 25.28 0 0 0 25.28-25.28l0.064-63.2a25.312 25.312 0 0 0-25.28-25.312H417.184a189.632 189.632 0 0 0-189.632 189.6v353.952c0 13.952 11.328 25.28 25.28 25.28h372.928a170.656 170.656 0 0 0 170.656-170.656v-145.376a25.28 25.28 0 0 0-25.28-25.28z" p-id="552"></path></svg>
+                        </a>
+                    
+                
+                    
+                
+            </div>
+        
+        <p>&copy; 2026 <a href="/" target="_blank">犯二青年</a></p>
+
+        
+            <p><a href="https://beian.miit.gov.cn" target="_blank">琼ICP备2024048013号-1</a></p>
+        
+
+        <p>Powered by
+            <a href="https://findcat.cn" target="_blank" rel="noopener noreferrer">犯二青年</a> 托管于
+            <a href="https://github.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="GitHub-全球最大同性交友社区">GitHub</a> &amp;
+            <a href="https://qiniu.com" target="_blank" title="" data-toggle="tooltip" data-placement="bottom"
+               rel="external nofollow" data-original-title="七牛云-国内领先的企业级云服务商">七牛云</a>
+
+            
+            <p>
+                <span>本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                <span class="post-meta-divider">|</span>
+                <span>本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+            </p>
+            
+        <p>
+            <a href="javascript:;" id="theme-light">🌞 浅色</a>
+            <a href="javascript:;" id="theme-dark">🌛 深色</a>
+            <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+        </p>
+
+    </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
