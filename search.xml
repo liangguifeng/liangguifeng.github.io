@@ -797,9 +797,9 @@
       
         <tags>
             
-            <tag> Windows </tag>
-            
             <tag> 生活小技巧 </tag>
+            
+            <tag> Windows </tag>
             
         </tags>
       
@@ -822,9 +822,9 @@
       
         <tags>
             
-            <tag> deploy </tag>
-            
             <tag> 踩坑日记 </tag>
+            
+            <tag> deploy </tag>
             
             <tag> Jenkins </tag>
             
