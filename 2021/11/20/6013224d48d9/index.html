@@ -90,6 +90,8 @@
                 
                     <li class="navbar-list-item"><a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF">运维技术</a></li>
                 
+                    <li class="navbar-list-item"><a href="/categories/AI%E7%9B%B8%E5%85%B3">AI相关</a></li>
+                
                     <li class="navbar-list-item"><a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0">其他文章</a></li>
                 
                     <li class="navbar-list-item"><a href="/message">留言板</a></li>
@@ -278,17 +280,17 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在近期我在写一些相关业务的同时，遇到了很多问题，由于业务的复杂度，大大超乎了我脑子的容量，导致我总是会忘记一些流程，非常的头疼，这导致我头大瞬间掉了一半，于是我开始想办法先解决思路不清晰的问题，然后同事就给我介绍了时序图，在一顿了解之后，我的头发感觉回来了一半，我给出一张我画的一个微信商城微服务刷新微信用户信息的时序图给大家看看逻辑是否清晰很多（本图为虚构，请自己按照真实场景构思）：</p>
 <p><img src="https://cdn.shenmeyun.com/uPic/ov7Hll.png"></p>
 <p><img src="https://cdn.shenmeyun.com/uPic/nHYrPd.jpg"></p>
-<h2 id="一、什么是时序图？"><a href="#一、什么是时序图？" class="headerlink" title="一、什么是时序图？"></a>一、什么是时序图？</h2><p>时序图（Sequence Diagram），亦称为序列图、循序图或顺序图，是一种 UML 交互图。它通过描述对象之间发送消息的时间顺序显示多个对象之间的动态协作。</p>
+<h2 id="什么是时序图？"><a href="#什么是时序图？" class="headerlink" title="什么是时序图？"></a>什么是时序图？</h2><p>时序图（Sequence Diagram），亦称为序列图、循序图或顺序图，是一种 UML 交互图。它通过描述对象之间发送消息的时间顺序显示多个对象之间的动态协作。</p>
 <p>时序图是一个二维图，横轴表示对象，纵轴表示时间，消息在各对象之间横向传递，依照时间顺序纵向排列。</p>
-<h2 id="二、时序图的作用是什么？"><a href="#二、时序图的作用是什么？" class="headerlink" title="二、时序图的作用是什么？"></a>二、时序图的作用是什么？</h2><ol>
+<h2 id="时序图的作用是什么？"><a href="#时序图的作用是什么？" class="headerlink" title="时序图的作用是什么？"></a>时序图的作用是什么？</h2><ol>
 <li>展示对象之间交互的顺序。将交互行为建模为消息传递，通过描述消息是如何在对象间发送和接收的来动态展示对象之间的交互</li>
 <li>相对于其他 UML 图，时序图更强调交互的时间顺序</li>
 <li>可以直观的描述并发进程</li>
 </ol>
-<h2 id="三、组成元素有哪些？"><a href="#三、组成元素有哪些？" class="headerlink" title="三、组成元素有哪些？"></a>三、组成元素有哪些？</h2><h3 id="1-角色（Actor）"><a href="#1-角色（Actor）" class="headerlink" title="1. 角色（Actor）"></a>1. 角色（Actor）</h3><ul>
+<h2 id="组成元素有哪些？"><a href="#组成元素有哪些？" class="headerlink" title="组成元素有哪些？"></a>组成元素有哪些？</h2><h3 id="角色（Actor）"><a href="#角色（Actor）" class="headerlink" title="角色（Actor）"></a>角色（Actor）</h3><ul>
 <li>系统角色，可以是人、机器、其他系统、子系统；在时序图中用表示。</li>
 </ul>
-<h3 id="2-对象（Object）"><a href="#2-对象（Object）" class="headerlink" title="2. 对象（Object）"></a>2. 对象（Object）</h3><h4 id="（1）对象的三种命名方式"><a href="#（1）对象的三种命名方式" class="headerlink" title="（1）对象的三种命名方式"></a>（1）对象的三种命名方式</h4><ul>
+<h3 id="对象（Object）"><a href="#对象（Object）" class="headerlink" title="对象（Object）"></a>对象（Object）</h3><h4 id="（1）对象的三种命名方式"><a href="#（1）对象的三种命名方式" class="headerlink" title="（1）对象的三种命名方式"></a>（1）对象的三种命名方式</h4><ul>
 <li>第一种方式包括对象名和类名，例如：直播课时:课时，在时序图中，用”对象：类”表示</li>
 <li>第二种方式只显示类名，即表示它是一个匿名对象，例如：:课程；在时序图中，用”：类”表示</li>
 <li>第三种方式只显示对象名不显示类名，例如：讲师；在时序图中，用”对象”表示</li>
@@ -299,21 +301,21 @@
 <h4 id="（3）对象的排列顺序"><a href="#（3）对象的排列顺序" class="headerlink" title="（3）对象的排列顺序"></a>（3）对象的排列顺序</h4><ul>
 <li>对象的左右顺序并不重要，但是为了作图清晰整洁，通常应遵循以下两个原则：把交互频繁的对象尽可能的靠拢；把初始化整个交互活动的对象放置在最左端。</li>
 </ul>
-<h3 id="3-生命线（Lifeline）"><a href="#3-生命线（Lifeline）" class="headerlink" title="3. 生命线（Lifeline）"></a>3. 生命线（Lifeline）</h3><ul>
+<h3 id="生命线（Lifeline）"><a href="#生命线（Lifeline）" class="headerlink" title="生命线（Lifeline）"></a>生命线（Lifeline）</h3><ul>
 <li>在时序图中表示为从对象图标向下延伸的一条虚线，表示对象存在的时间。</li>
 </ul>
-<h3 id="4-控制焦点（Focus-of-Control）"><a href="#4-控制焦点（Focus-of-Control）" class="headerlink" title="4. 控制焦点（Focus of Control）"></a>4. 控制焦点（Focus of Control）</h3><ul>
+<h3 id="控制焦点（Focus-of-Control）"><a href="#控制焦点（Focus-of-Control）" class="headerlink" title="控制焦点（Focus of Control）"></a>控制焦点（Focus of Control）</h3><ul>
 <li>又称为激活期，表示时间段的符号，在这个时间段内对象将执行相应的操作。它可以被理解成 C 语言语义中一对花括号 <code>&#123; &#125;</code> 中的内容；用小矩形表示。</li>
 </ul>
-<h3 id="5-消息（Message）"><a href="#5-消息（Message）" class="headerlink" title="5. 消息（Message）"></a>5. 消息（Message）</h3><ul>
+<h3 id="消息（Message）"><a href="#消息（Message）" class="headerlink" title="消息（Message）"></a>消息（Message）</h3><ul>
 <li>消息一般分为同步消息（Synchronous Message），异步消息（Asynchronous Message）和返回消息（Return Message）。</li>
 <li>消息的发送者把控制传递给消息的接收者，然后停止活动，等待消息的接收者放弃或者返回控制。用来表示同步的意义。</li>
 <li>消息发送者通过消息把信号传递给消息的接收者，然后继续自己的活动，不等待接受者返回消息或者控制。异步消息的接收者和发送者是并发工作的。</li>
 <li>返回消息表示从过程调用返回。</li>
 </ul>
-<h4 id="1-自关联消息"><a href="#1-自关联消息" class="headerlink" title="1. 自关联消息"></a>1. 自关联消息</h4><p>表示方法的自身调用或者一个对象内的一个方法调用另外一个方法。</p>
-<h4 id="2-组合片段"><a href="#2-组合片段" class="headerlink" title="2. 组合片段"></a>2. 组合片段</h4><p>组合片段用来解决交互执行的条件和方式，它允许在序列图中直接表示逻辑组件，用于通过指定条件或子进程的应用区域，为任何生命线的任何部分定义特殊条件和子进程。组合片段共有 13 种，名称及含义如下：<br><img src="https://cdn.shenmeyun.com/uPic/opt.png" style="zoom:150%;" /></p>
-<h2 id="四、Markdown-中使用-mermaid-画时序图"><a href="#四、Markdown-中使用-mermaid-画时序图" class="headerlink" title="四、Markdown 中使用 mermaid 画时序图"></a>四、Markdown 中使用 mermaid 画时序图</h2><p>语法是使用的代码段的语法，只不过代码段的语言注释选择：<code>mermaid</code></p>
+<h4 id="自关联消息"><a href="#自关联消息" class="headerlink" title="自关联消息"></a>自关联消息</h4><p>表示方法的自身调用或者一个对象内的一个方法调用另外一个方法。</p>
+<h4 id="组合片段"><a href="#组合片段" class="headerlink" title="组合片段"></a>组合片段</h4><p>组合片段用来解决交互执行的条件和方式，它允许在序列图中直接表示逻辑组件，用于通过指定条件或子进程的应用区域，为任何生命线的任何部分定义特殊条件和子进程。组合片段共有 13 种，名称及含义如下：<br><img src="https://cdn.shenmeyun.com/uPic/opt.png" style="zoom:150%;" /></p>
+<h2 id="Markdown-中使用-mermaid-画时序图"><a href="#Markdown-中使用-mermaid-画时序图" class="headerlink" title="Markdown 中使用 mermaid 画时序图"></a>Markdown 中使用 mermaid 画时序图</h2><p>语法是使用的代码段的语法，只不过代码段的语言注释选择：<code>mermaid</code></p>
 <p>如下的一段时序图：</p>
 <p><img src="https://cdn.shenmeyun.com/uPic/ov7Hll.png"></p>
 <p>其实是由这一段代码生成的：</p>
@@ -436,19 +438,19 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>25</span>
+        <span>26</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        4
+        5
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        46
+        50
       </div>
     </div>
   </div>
@@ -463,7 +465,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%B6%E5%BA%8F%E5%9B%BE%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">一、什么是时序图？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%97%B6%E5%BA%8F%E5%9B%BE%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">二、时序图的作用是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BB%84%E6%88%90%E5%85%83%E7%B4%A0%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">三、组成元素有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%A7%92%E8%89%B2%EF%BC%88Actor%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">1. 角色（Actor）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AF%B9%E8%B1%A1%EF%BC%88Object%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">2. 对象（Object）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%9F%E5%91%BD%E7%BA%BF%EF%BC%88Lifeline%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">3. 生命线（Lifeline）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%8E%A7%E5%88%B6%E7%84%A6%E7%82%B9%EF%BC%88Focus-of-Control%EF%BC%89"><span class="toc-number">4.4.</span> <span class="toc-text">4. 控制焦点（Focus of Control）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B6%88%E6%81%AF%EF%BC%88Message%EF%BC%89"><span class="toc-number">4.5.</span> <span class="toc-text">5. 消息（Message）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Markdown-%E4%B8%AD%E4%BD%BF%E7%94%A8-mermaid-%E7%94%BB%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="toc-number">5.</span> <span class="toc-text">四、Markdown 中使用 mermaid 画时序图</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%B6%E5%BA%8F%E5%9B%BE%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是时序图？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E5%BA%8F%E5%9B%BE%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">时序图的作用是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E6%88%90%E5%85%83%E7%B4%A0%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">组成元素有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E8%89%B2%EF%BC%88Actor%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">角色（Actor）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%EF%BC%88Object%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">对象（Object）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E7%BA%BF%EF%BC%88Lifeline%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">生命线（Lifeline）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E7%84%A6%E7%82%B9%EF%BC%88Focus-of-Control%EF%BC%89"><span class="toc-number">4.4.</span> <span class="toc-text">控制焦点（Focus of Control）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%EF%BC%88Message%EF%BC%89"><span class="toc-number">4.5.</span> <span class="toc-text">消息（Message）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown-%E4%B8%AD%E4%BD%BF%E7%94%A8-mermaid-%E7%94%BB%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="toc-number">5.</span> <span class="toc-text">Markdown 中使用 mermaid 画时序图</span></a></li></ol>
   </div>
 </section>
 
@@ -499,6 +501,18 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/">
+            前端技术 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/AI%E7%9B%B8%E5%85%B3/">
+            AI相关 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E5%85%B6%E4%BB%96%E6%96%87%E7%AB%A0/">
             其他文章 (1)
           </a>
@@ -507,12 +521,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E8%BF%90%E7%BB%B4%E6%8A%80%E6%9C%AF/">
             运维技术 (6)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/">
-            前端技术 (1)
           </a>
         </li>
       
@@ -529,7 +537,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/API%E7%AD%BE%E5%90%8D/" style="font-size: 10px;" class="tags-cloud-0">API签名</a> <a href="/tags/Charles/" style="font-size: 10px;" class="tags-cloud-0">Charles</a> <a href="/tags/Chrome/" style="font-size: 10px;" class="tags-cloud-0">Chrome</a> <a href="/tags/ChromeDP/" style="font-size: 10px;" class="tags-cloud-0">ChromeDP</a> <a href="/tags/ChromeDriver/" style="font-size: 10px;" class="tags-cloud-0">ChromeDriver</a> <a href="/tags/Docker-Desktop/" style="font-size: 12.5px;" class="tags-cloud-3">Docker Desktop</a> <a href="/tags/EFK/" style="font-size: 15px;" class="tags-cloud-5">EFK</a> <a href="/tags/ElasticSearch/" style="font-size: 17.5px;" class="tags-cloud-8">ElasticSearch</a> <a href="/tags/ElasticSearch-Dump/" style="font-size: 10px;" class="tags-cloud-0">ElasticSearch Dump</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;" class="tags-cloud-0">Elasticsearch</a> <a href="/tags/Filebeat/" style="font-size: 15px;" class="tags-cloud-5">Filebeat</a> <a href="/tags/Git/" style="font-size: 10px;" class="tags-cloud-0">Git</a> <a href="/tags/Golang/" style="font-size: 12.5px;" class="tags-cloud-3">Golang</a> <a href="/tags/IPTV/" style="font-size: 10px;" class="tags-cloud-0">IPTV</a> <a href="/tags/Jenkins/" style="font-size: 10px;" class="tags-cloud-0">Jenkins</a> <a href="/tags/Kibana/" style="font-size: 15px;" class="tags-cloud-5">Kibana</a> <a href="/tags/Linux/" style="font-size: 15px;" class="tags-cloud-5">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;" class="tags-cloud-3">MySQL</a> <a href="/tags/PhpStorm/" style="font-size: 10px;" class="tags-cloud-0">PhpStorm</a> <a href="/tags/SSL/" style="font-size: 12.5px;" class="tags-cloud-3">SSL</a> <a href="/tags/Swoole/" style="font-size: 10px;" class="tags-cloud-0">Swoole</a> <a href="/tags/UDP/" style="font-size: 10px;" class="tags-cloud-0">UDP</a> <a href="/tags/Ubuntu/" style="font-size: 10px;" class="tags-cloud-0">Ubuntu</a> <a href="/tags/Xdebug/" style="font-size: 10px;" class="tags-cloud-0">Xdebug</a> <a href="/tags/deploy/" style="font-size: 12.5px;" class="tags-cloud-3">deploy</a> <a href="/tags/gRPC/" style="font-size: 10px;" class="tags-cloud-0">gRPC</a> <a href="/tags/git/" style="font-size: 10px;" class="tags-cloud-0">git</a> <a href="/tags/hyperf/" style="font-size: 10px;" class="tags-cloud-0">hyperf</a> <a href="/tags/k8s/" style="font-size: 12.5px;" class="tags-cloud-3">k8s</a> <a href="/tags/k8s%E6%95%99%E7%A8%8B%E7%B3%BB%E5%88%97/" style="font-size: 12.5px;" class="tags-cloud-3">k8s教程系列</a> <a href="/tags/mysqldump/" style="font-size: 12.5px;" class="tags-cloud-3">mysqldump</a> <a href="/tags/php-cs-fixer/" style="font-size: 10px;" class="tags-cloud-0">php-cs-fixer</a> <a href="/tags/sql/" style="font-size: 10px;" class="tags-cloud-0">sql</a> <a href="/tags/supervisord/" style="font-size: 10px;" class="tags-cloud-0">supervisord</a> <a href="/tags/web%E9%80%86%E5%90%91/" style="font-size: 10px;" class="tags-cloud-0">web逆向</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;" class="tags-cloud-0">并发编程</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 20px;" class="tags-cloud-10">开发小技巧</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;" class="tags-cloud-0">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD/" style="font-size: 10px;" class="tags-cloud-0">数据库备份</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据库迁移</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据迁移</a> <a href="/tags/%E6%B5%B7%E5%8D%97%E7%94%B5%E4%BF%A1/" style="font-size: 10px;" class="tags-cloud-0">海南电信</a> <a href="/tags/%E8%96%85%E7%BE%8A%E6%AF%9B/" style="font-size: 10px;" class="tags-cloud-0">薅羊毛</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 12.5px;" class="tags-cloud-3">证书</a> <a href="/tags/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" style="font-size: 12.5px;" class="tags-cloud-3">踩坑日记</a> <a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/" style="font-size: 12.5px;" class="tags-cloud-3">运维技巧</a>
+      <a href="/tags/AI/" style="font-size: 10px;" class="tags-cloud-0">AI</a> <a href="/tags/API%E7%AD%BE%E5%90%8D/" style="font-size: 10px;" class="tags-cloud-0">API签名</a> <a href="/tags/Agent/" style="font-size: 10px;" class="tags-cloud-0">Agent</a> <a href="/tags/Charles/" style="font-size: 10px;" class="tags-cloud-0">Charles</a> <a href="/tags/Chrome/" style="font-size: 10px;" class="tags-cloud-0">Chrome</a> <a href="/tags/ChromeDP/" style="font-size: 10px;" class="tags-cloud-0">ChromeDP</a> <a href="/tags/ChromeDriver/" style="font-size: 10px;" class="tags-cloud-0">ChromeDriver</a> <a href="/tags/Docker-Desktop/" style="font-size: 12.5px;" class="tags-cloud-3">Docker Desktop</a> <a href="/tags/EFK/" style="font-size: 15px;" class="tags-cloud-5">EFK</a> <a href="/tags/ElasticSearch/" style="font-size: 17.5px;" class="tags-cloud-8">ElasticSearch</a> <a href="/tags/ElasticSearch-Dump/" style="font-size: 10px;" class="tags-cloud-0">ElasticSearch Dump</a> <a href="/tags/Elasticsearch/" style="font-size: 10px;" class="tags-cloud-0">Elasticsearch</a> <a href="/tags/Filebeat/" style="font-size: 15px;" class="tags-cloud-5">Filebeat</a> <a href="/tags/Git/" style="font-size: 10px;" class="tags-cloud-0">Git</a> <a href="/tags/Golang/" style="font-size: 12.5px;" class="tags-cloud-3">Golang</a> <a href="/tags/IPTV/" style="font-size: 10px;" class="tags-cloud-0">IPTV</a> <a href="/tags/Jenkins/" style="font-size: 10px;" class="tags-cloud-0">Jenkins</a> <a href="/tags/Kibana/" style="font-size: 15px;" class="tags-cloud-5">Kibana</a> <a href="/tags/Linux/" style="font-size: 15px;" class="tags-cloud-5">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;" class="tags-cloud-3">MySQL</a> <a href="/tags/OpenCode/" style="font-size: 10px;" class="tags-cloud-0">OpenCode</a> <a href="/tags/PhpStorm/" style="font-size: 10px;" class="tags-cloud-0">PhpStorm</a> <a href="/tags/SSL/" style="font-size: 12.5px;" class="tags-cloud-3">SSL</a> <a href="/tags/Swoole/" style="font-size: 10px;" class="tags-cloud-0">Swoole</a> <a href="/tags/UDP/" style="font-size: 10px;" class="tags-cloud-0">UDP</a> <a href="/tags/Ubuntu/" style="font-size: 10px;" class="tags-cloud-0">Ubuntu</a> <a href="/tags/Xdebug/" style="font-size: 10px;" class="tags-cloud-0">Xdebug</a> <a href="/tags/deploy/" style="font-size: 12.5px;" class="tags-cloud-3">deploy</a> <a href="/tags/gRPC/" style="font-size: 10px;" class="tags-cloud-0">gRPC</a> <a href="/tags/git/" style="font-size: 10px;" class="tags-cloud-0">git</a> <a href="/tags/hyperf/" style="font-size: 10px;" class="tags-cloud-0">hyperf</a> <a href="/tags/k8s/" style="font-size: 12.5px;" class="tags-cloud-3">k8s</a> <a href="/tags/k8s%E6%95%99%E7%A8%8B%E7%B3%BB%E5%88%97/" style="font-size: 12.5px;" class="tags-cloud-3">k8s教程系列</a> <a href="/tags/mysqldump/" style="font-size: 12.5px;" class="tags-cloud-3">mysqldump</a> <a href="/tags/php-cs-fixer/" style="font-size: 10px;" class="tags-cloud-0">php-cs-fixer</a> <a href="/tags/sql/" style="font-size: 10px;" class="tags-cloud-0">sql</a> <a href="/tags/supervisord/" style="font-size: 10px;" class="tags-cloud-0">supervisord</a> <a href="/tags/web%E9%80%86%E5%90%91/" style="font-size: 10px;" class="tags-cloud-0">web逆向</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10px;" class="tags-cloud-0">并发编程</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 20px;" class="tags-cloud-10">开发小技巧</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;" class="tags-cloud-0">微服务</a> <a href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/" style="font-size: 10px;" class="tags-cloud-0">效率工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD/" style="font-size: 10px;" class="tags-cloud-0">数据库备份</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据库迁移</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB/" style="font-size: 10px;" class="tags-cloud-0">数据迁移</a> <a href="/tags/%E6%B5%B7%E5%8D%97%E7%94%B5%E4%BF%A1/" style="font-size: 10px;" class="tags-cloud-0">海南电信</a> <a href="/tags/%E8%96%85%E7%BE%8A%E6%AF%9B/" style="font-size: 10px;" class="tags-cloud-0">薅羊毛</a> <a href="/tags/%E8%AF%81%E4%B9%A6/" style="font-size: 12.5px;" class="tags-cloud-3">证书</a> <a href="/tags/%E8%B8%A9%E5%9D%91%E6%97%A5%E8%AE%B0/" style="font-size: 12.5px;" class="tags-cloud-3">踩坑日记</a> <a href="/tags/%E8%BF%90%E7%BB%B4%E6%8A%80%E5%B7%A7/" style="font-size: 12.5px;" class="tags-cloud-3">运维技巧</a>
     </div>
   </div>
 </section>
